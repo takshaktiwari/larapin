@@ -24,78 +24,79 @@
     	</div>
     	<!-- end page title -->
 
-		
-		<div class="bg-white p-3 shadow-sm">
-			<table class="table table-bordered">
-			    <thead>
-				    <tr>
-				        <th>Image</th>
-				        <th>Category</th>
-				        <th>Parent</th>
-				        <th>Featured</th>
-				        <th>Status</th>
-				        <th>Action</th>
-				    </tr>
-			    </thead>
-			    <tbody>
-				    @foreach($categories as $category)
-				        <tr>
-				            <td>
-				                <img src="{{ url('storage/'.$category->image_sm) }}" alt="" style="max-height: 60px;">
-				            </td>
-				            <td>
-				                {{ $category->category }}
-				                <div class="small text-danger">
-				                    {{ date('d-M-Y h:i A', strtotime($category->created_at)) }}
-				                </div>
-				            </td>
-				            <td>
-				                @isset($category->parent_category->category)
-				                    {{ $category->parent_category->category }}
-				                @endisset
-				            </td>
-				            <td>
-				                @if($category->featured == '1')
-				                    <span class="text-primary font-weight-bold">
-				                        Featured
-				                    </span>
-				                @else
-				                    <span class="text-secondary">
-				                        ---
-				                    </span>
-				                @endif
-				            </td>
-				            <td>
-				                @if($category->status == '1')
-				                    <span class="text-success font-weight-bold">
-				                        Active
-				                    </span>
-				                @else
-				                    <span class="text-secondary">
-				                        In-Active
-				                    </span>
-				                @endif
-				            </td>
-				            <td class="font-size-20">
-				            	<a href="{{ url('admin/category/show/'.$category->id) }}" class="btn btn-sm btn-info" title="Edit this">
-				            	    <i class="fas fa-info-circle"></i>
-				            	</a>
-				            	<a href="{{ url('admin/category/locations/'.$category->id) }}" class="btn btn-sm btn-secondary" title="Edit this">
-				            	    <i class="fas fa-map-marker-alt"></i>
-				            	</a>
-				            	<a href="{{ url('admin/category/attributes/'.$category->id) }}" class="btn btn-sm btn-dark" title="Edit this">
-				            	    <i class="fas fa-bezier-curve"></i>
-				            	</a>
-			                    <a href="{{ url('admin/category/edit/'.$category->id) }}" class="btn btn-sm btn-danger" title="Edit this">
-			                        <i class="fas fa-edit"></i>
-			                    </a>
-				            </td>
-				        </tr>
-				    @endforeach
-			    </tbody>
-			</table>
+		<div class="card">
+			<div class="card-body table-responsive">
+				<table class="table table-bordered">
+				    <thead>
+					    <tr>
+					        <th>Image</th>
+					        <th>Category</th>
+					        <th>Parent</th>
+					        <th>Featured</th>
+					        <th>Status</th>
+					        <th>Action</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+					    @foreach($categories as $category)
+					        <tr>
+					            <td>
+					                <img src="{{ url('storage/'.$category->image_sm) }}" alt="" style="max-height: 60px;">
+					            </td>
+					            <td>
+					                {{ $category->category }}
+					                <div class="small text-danger">
+					                    {{ date('d-M-Y h:i A', strtotime($category->created_at)) }}
+					                </div>
+					            </td>
+					            <td>
+					                @isset($category->parent_category->category)
+					                    {{ $category->parent_category->category }}
+					                @endisset
+					            </td>
+					            <td>
+					                @if($category->featured == '1')
+					                    <span class="text-primary font-weight-bold">
+					                        Featured
+					                    </span>
+					                @else
+					                    <span class="text-secondary">
+					                        ---
+					                    </span>
+					                @endif
+					            </td>
+					            <td>
+					                @if($category->status == '1')
+					                    <span class="text-success font-weight-bold">
+					                        Active
+					                    </span>
+					                @else
+					                    <span class="text-secondary">
+					                        In-Active
+					                    </span>
+					                @endif
+					            </td>
+					            <td class="font-size-20">
+					            	<a href="{{ url('admin/category/show/'.$category->id) }}" class="btn btn-sm btn-info" title="View Details">
+					            	    <i class="fas fa-info-circle"></i>
+					            	</a>
+					            	<a href="{{ url('admin/category/locations/'.$category->id) }}" class="btn btn-sm btn-secondary" title="Category Locations">
+					            	    <i class="fas fa-map-marker-alt"></i>
+					            	</a>
+					            	<a href="{{ url('admin/category/attributes/'.$category->id) }}" class="btn btn-sm btn-dark" title="category Attributes">
+					            	    <i class="fas fa-bezier-curve"></i>
+					            	</a>
+				                    <a href="{{ url('admin/category/edit/'.$category->id) }}" class="btn btn-sm btn-danger" title="Edit this">
+				                        <i class="fas fa-edit"></i>
+				                    </a>
+					            </td>
+					        </tr>
+					    @endforeach
+				    </tbody>
+				</table>
 
-			{{ $categories->links() }}
+				{{ $categories->links() }}
+			</div>
 		</div>
 
     </div> <!-- container-fluid -->

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class UserController extends Controller
 		    		'password'	=>	\Hash::make($request->post('password')),
 		    		'email_verified_at' => $verified_at,
                     'api_token' =>  \Str::random(80),
+                    'role_id'   =>  '3'
 		    	]);
 
     	\App\User_detail::create([
@@ -55,7 +57,12 @@ class UserController extends Controller
     public function edit($id)
     {
     	$user = User::find($id);
-    	return view('admin/users/user_edit')->with('user', $user);
+        if ($user->detail == '') {
+            \App\User_detail::create(['user_id' => $user->id]);
+        }
+        $user = User::find($id);
+        $roles = Role::orderBy('role_name', 'ASC')->get()->all();
+    	return view('admin/users/user_edit')->with('user', $user)->with('roles', $roles);
     }
 
     public function destroy($id)
@@ -76,7 +83,7 @@ class UserController extends Controller
     	$request->validate([
     		'name'		=>	'required',
     		'email'		=>	'required',
-    		'mobile'	=>	'required',
+            'role_id'   =>  'required',
     	]);
 
     	$user = User::find($request->post('user_id'));
@@ -94,13 +101,13 @@ class UserController extends Controller
 
     	$object = [ 'name'		=>	$request->post('name'),
 		    		'email'		=>	$request->post('email'),
+                    'role_id'   =>  $request->post('role_id'),
 		    		'email_verified_at' => $verified_at ];
 
 		if (!empty($request->post('password'))) {
 			$arr = ['password'	=>	\Hash::make($request->post('password'))];
 			$object = array_merge($object, $arr);
 		}
-
     	$user->update($object);
 
     	$user->detail->update([

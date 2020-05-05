@@ -28,26 +28,31 @@
 		
 		<div class="row">
 			<div class="col-md-6">
-				<form action="{{ url('admin/state/update') }}" method="POST" class="bg-white p-sm-5 p-3 shadow-sm">
-					@csrf
-                    <div class="form-group">
-                        <label for="">Country <span class="text-danger">*</span></label>
-                        <select name="country_id" class="form-control" required>
-                            <option value="">-- Select Country --</option>
-                            @foreach($countries as $country)
-                                <option value="{{ $country->id }}" {{ selected($country->id, $state->country_id) }} >
-                                    {{ $country->country }}
-                                </option>
-                            @endforeach
-                        </select>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ url('admin/state/update') }}" method="POST" class="p-sm-3 p-0">
+                            @csrf
+                            <div class="form-group">
+                                <label for="">Country <span class="text-danger">*</span></label>
+                                <select name="country_id" class="form-control" required>
+                                    <option value="">-- Select Country --</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{ $country->id }}" {{ selected($country->id, $state->country_id) }} >
+                                            {{ $country->country }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">State Name <span class="text-danger">*</span></label>
+                                <input type="text" name="state" required class="form-control" value="{{ $state->state }}">
+                            </div>
+                            <input type="hidden" name="state_id" value="{{ $state->id }}">
+                            <input type="submit" class="btn btn-primary px-5">
+                        </form>
                     </div>
-					<div class="form-group">
-					    <label for="">State Name <span class="text-danger">*</span></label>
-					    <input type="text" name="state" required class="form-control" value="{{ $state->state }}">
-					</div>
-                    <input type="hidden" name="state_id" value="{{ $state->id }}">
-					<input type="submit" class="btn btn-dark px-5">
-				</form>
+                </div>
+				
 			</div>
 		</div>
 

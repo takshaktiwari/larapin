@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttrOptionCategoryTable extends Migration
+class CreateBrandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateAttrOptionCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('attr_option_category', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('category_id');
-            $table->integer('attr_option_id');
+            $table->string('brand');
+            $table->string('slug');
+            $table->string('m_title', 255)->nullable();
+            $table->string('m_keywords', 255)->nullable();
+            $table->string('m_description', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateAttrOptionCategoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attr_option_category');
+        Schema::dropIfExists('brands');
     }
 }

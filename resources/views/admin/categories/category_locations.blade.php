@@ -4,6 +4,8 @@
 	@php
 		#	existing locations associated to this category
 		$cat_locations = $category->locations->pluck('id')->toArray();
+		$cat_states = $category->states->pluck('id')->toArray();
+		$cat_countries = $category->countries->pluck('id')->toArray();
 	@endphp
 	<style>
 		.custom_check{
@@ -39,6 +41,15 @@
             </div>
         </div>
         
+
+        <div class="list-group-item d-flex mb-4" style="width: 400px; max-width: 100%">
+        	<h5 class="m-0 flex-fill">Select All Locations</h5>
+        	<div class="my-auto custom_check">
+        		<input type="checkbox" id="select_all" switch="none" class="select_all" />
+        		<label for="select_all" data-on-label="Yes"
+        	        data-off-label="No" class="mb-0"></label>
+        	</div>
+        </div>
 		<form action="{{ url('admin/category/locations/update') }}" method="POST" enctype="multipart/form-data" class="mb-5">
 		    @csrf
 		    <div id="accordion_country">
@@ -56,11 +67,11 @@
 			                            aria-expanded="true"
 			                            aria-controls="collapseOne">
 			                        {{ $country->country }}
-			                        <span class="badge badge-dark badge-pill ml-2">{{ $country->locations_count }}</span>
+			                        <span class="badge badge-success badge-pill ml-2">{{ $country->locations_count }}</span>
 			                    </a>
 			                </h6>
 			                <div class="my-auto custom_check">
-			                	<input type="checkbox" id="{{ 'country_switch_'.$country->id }}" switch="dark" class="country_check" />
+			                	<input type="checkbox" id="{{ 'country_switch_'.$country->id }}" switch="none" class="country_check" name="countries[]" value="{{ $country->id }}" {{ checked($cat_countries, $country->id, TRUE) }} />
 			                	<label for="{{ 'country_switch_'.$country->id }}" data-on-label="Yes"
 			                	        data-off-label="No" class="mb-0"></label>
 			                </div>
@@ -86,11 +97,11 @@
 									                            aria-expanded="true"
 									                            aria-controls="collapseOne">
 									                        {{ $state->state }}
-									                        <span class="badge badge-dark badge-pill ml-2">{{ $state->locations_count }}</span>
+									                        <span class="badge badge-success badge-pill ml-2">{{ $state->locations_count }}</span>
 									                    </a>
 									                </h6>
 									                <div class="my-auto custom_check">
-									                	<input type="checkbox" id="{{ 'state_switch_'.$state->id }}" switch="dark" class="state_check" />
+									                	<input type="checkbox" id="{{ 'state_switch_'.$state->id }}" switch="none" class="state_check" name="states[]" value="{{ $state->id }}" {{ checked($cat_states, $state->id, TRUE) }}/>
 									                	<label for="{{ 'state_switch_'.$state->id }}" data-on-label="Yes"
 									                	        data-off-label="No" class="mb-0"></label>
 									                </div>
@@ -151,6 +162,16 @@
 					$(this).parent().parent().next().find('.location_check').prop( "checked", true );
 				}else{
 					$(this).parent().parent().next().find('.location_check').prop( "checked", false );
+				}
+			});
+
+			$(".select_all").change(function(event) {
+				if($(this).is(':checked')){
+					$("#accordion_country").find('.country_check').prop( "checked", true );
+					$("#accordion_country").find('.state_check').prop( "checked", true );
+				}else{
+					$("#accordion_country").find('.country_check').prop( "checked", false );
+					$("#accordion_country").find('.state_check').prop( "checked", false );
 				}
 			});
 		});

@@ -23,13 +23,19 @@ class Category extends Model
     	return $this->belongsToMany('App\Location');
     }
 
+    public function states()
+    {
+        return $this->belongsToMany('App\State');
+    }
+
+    public function countries()
+    {
+        return $this->belongsToMany('App\Country');
+    }
+
     public function attributes()
     {
         return $this->belongsToMany('App\Attribute');
     }
 
-    public function attr_options()
-    {
-        return $this->belongsToMany('App\Attr_option');
-    }
 }

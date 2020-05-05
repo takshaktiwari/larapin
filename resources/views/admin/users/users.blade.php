@@ -31,7 +31,7 @@
 					    <tr>
 					        <th>#</th>
 					        <th>Name</th>
-					        <th>Email</th>
+					        <th>Role</th>
 					        <th>Verified at</th>
 					        <th>Created at</th>
 					        <th>Action</th>
@@ -43,19 +43,31 @@
 					    @foreach($users as $key => $user)
 					    	<tr>
 					        	<td>{{ $key+1 }}</td>
-					            <td> {{ $user->name }} </td>
-					            <td> {{ $user->email }} </td>
 					            <td> 
-					            	{{ date('d-M-Y h:i A', strtotime($user->email_verified_at)) }} 
+					            	{{ $user->name }} 
+					            	<div class="small">{{ $user->email }}</div>
+					            </td>
+					            <td>
+					            	<span class="badge badge-warning font-size-14 text-dark badge-pill">
+					            		{{ $user->role->role_name }}
+					            	</span>
+					            </td>
+					            <td> 
+					            	@if($user->email_verified_at != '')
+					            		{{ date('d-M-Y h:i A', strtotime($user->email_verified_at)) }} 
+					            	@endif
 					            </td>
 					            <td>
 					            	{{ date('d-M-Y h:i A', strtotime($user->created_at)) }} 
 					            </td>
 					            <td class="font-size-20">
+					            	
 				                    <a href="{{ url('admin/user/edit/'.$user->id) }}" class="btn btn-sm btn-success" title="Edit this">
 				                        <i class="fas fa-edit"></i>
 				                    </a>
-
+									<a href="{{ url('admin/user/'.$user->id.'/addresses') }}" class="btn btn-sm btn-secondary" title="User Addresses">
+									    <i class="fas fa-home"></i>
+									</a>
 				                    <a href="{{ url('admin/user/delete/'.$user->id) }}" class="btn btn-sm btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 				                        <i class="fas fa-trash"></i>
 				                    </a>

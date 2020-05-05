@@ -41,8 +41,8 @@
 							    <input type="email" name="email" required class="form-control" value="{{ $user->email }}">
 							</div>
 							<div class="form-group">
-							    <label for="">Mobile <span class="text-danger">*</span></label>
-							    <input type="number" name="mobile" required class="form-control" value="{{ $user->detail->mobile }}">
+							    <label for="">Mobile </label>
+							    <input type="number" name="mobile" class="form-control" value="{{ $user->detail->mobile }}">
 							</div>
 							<div class="form-group">
 							    <label for="">Gender</label>
@@ -51,6 +51,17 @@
 							        <option value="Male" {{ selected($user->detail->gender, 'Male') }}>Male</option>
 							        <option value="Female" {{ selected($user->detail->gender, 'Female') }}>Female</option>
 							        <option value="Others" {{ selected($user->detail->gender, 'Others') }}>Others</option>
+							    </select>
+							</div>
+							<div class="form-group">
+							    <label for="">Role <span class="text-danger">*</span></label>
+							    <select name="role_id" class="form-control" required>
+							        <option value="">-- Select --</option>
+							        @foreach($roles as $role)
+							        	<option value="{{ $role->id }}" {{ selected($role->id, $user->role_id) }}>
+							        		{{ $role->role_name }}
+							        	</option>
+							        @endforeach
 							    </select>
 							</div>
 							<div class="form-group">

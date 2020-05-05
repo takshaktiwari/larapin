@@ -18,9 +18,10 @@ class CreateProductVariantsTable extends Migration
             $table->integer('product_id');
             $table->integer('attribute_id');
             $table->integer('attr_option_id');
-            $table->string('attr_option');
+            $table->string('attr_option_name');
             $table->float('price', 10, 2)->nullable()->default('0.00');
             $table->float('discount', 10, 2)->nullable()->default('0.00');
+            $table->integer('stock')->nullable()->default('0');
             $table->timestamps();
         });
     }

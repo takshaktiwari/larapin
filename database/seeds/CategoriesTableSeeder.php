@@ -14,7 +14,27 @@ class CategoriesTableSeeder extends Seeder
     public function run(Faker $faker)
     {
     	Category::truncate();
-    	for($i=1; $i<=8; $i++){
+        $cntries = \App\Country::with('states')->with('locations')->get()->all();
+
+        $countries  = [];
+        $states     = [];
+        $locations  = [];
+        foreach ($cntries as $country) {
+            array_push($countries, $country->id);
+            $states = array_merge($states, $country->states->pluck('id')->toArray());
+            $locations = array_merge($locations, $country->locations->pluck('id')->toArray());
+        }
+
+
+        $attributes = [];
+        $attrs = \App\Attribute::get()->all();
+        foreach ($attrs as $attribute) {
+            array_push($attributes, $attribute->id);
+        }
+
+
+    	for($i=1; $i<=5; $i++){
+
 	    	$image = '/dump_images/image-'.rand(1, 13).'.jpg';
 	    	$name = $faker->company;
 
@@ -27,8 +47,8 @@ class CategoriesTableSeeder extends Seeder
 	                    'category' 		=> $name,
 	                    'slug' 			=> $slug,
 	                    'parent' 		=> null,
-	                    'status' 		=> $faker->boolean($chanceOfGettingTrue = 10),
-	                    'featured' 		=> $faker->boolean($chanceOfGettingTrue = 5),
+	                    'status' 		=> rand(0, 1),
+	                    'featured' 		=> rand(0, 1),
 	                    'm_title' 		=> $faker->sentence($nbWords = 8, $asText = false),
 	                    'm_keywords' 	=> $faker->sentence($nbWords = 12, $asText = false),
 	                    'm_description' => $faker->sentence($nbWords = 15, $asText = false),
@@ -36,7 +56,12 @@ class CategoriesTableSeeder extends Seeder
 	        
 	        $category = Category::create($object);
 
-	        for($i=1; $i<=rand(4,8); $i++){
+            $category->countries()->sync($countries);
+            $category->states()->sync($states);
+            $category->locations()->sync($locations);
+            $category->attributes()->sync($attributes);
+
+	        for($j=1; $j<=rand(4,6); $j++){
         		$image = '/dump_images/image-'.rand(1, 13).'.jpg';
         		$name = $faker->company;
 
@@ -49,14 +74,19 @@ class CategoriesTableSeeder extends Seeder
         	                'category' 		=> $name,
         	                'slug' 			=> $slug,
         	                'parent' 		=> $category->id,
-        	                'status' 		=> $faker->boolean($chanceOfGettingTrue = 10),
-        	                'featured' 		=> $faker->boolean($chanceOfGettingTrue = 5),
+        	                'status' 		=> rand(0, 1),
+        	                'featured' 		=> rand(0, 1),
         	                'm_title' 		=> $faker->sentence($nbWords = 8, $asText = false),
         	                'm_keywords' 	=> $faker->sentence($nbWords = 12, $asText = false),
         	                'm_description' => $faker->sentence($nbWords = 15, $asText = false),
         	            ];
         	    
-        	    Category::create($object);
+        	    $child_cat = Category::create($object);
+
+                $child_cat->countries()->sync($countries);
+                $child_cat->states()->sync($states);
+                $child_cat->locations()->sync($locations);
+                $child_cat->attributes()->sync($attributes);
 	        }
         }
     }

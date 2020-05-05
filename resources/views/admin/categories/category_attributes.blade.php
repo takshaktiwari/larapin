@@ -4,9 +4,6 @@
 	@php
 		#	existing attributes associated to this category
 		$cat_attributes = $category->attributes->pluck('id')->toArray();
-
-		#	existing attribute_otions associated to this category
-		$cat_options = $category->attr_options->pluck('id')->toArray();
 	@endphp
 	<style>
 		.custom_check{
@@ -59,11 +56,11 @@
 			                            aria-expanded="true"
 			                            aria-controls="collapseOne">
 			                        {{ $attribute->attribute }}
-			                        <span class="badge badge-dark badge-pill ml-2">{{ $attribute->attr_options_count }}</span>
+			                        <span class="badge badge-success badge-pill ml-2">{{ $attribute->attr_options_count }}</span>
 			                    </a>
 			                </h6>
 			                <div class="my-auto custom_check">
-			                	<input type="checkbox" id="{{ 'attribute_switch_'.$attribute->id }}" switch="dark" class="parent_check" name="attributes[]" value="{{ $attribute->id }}"  {{ checked($cat_attributes, $attribute->id, TRUE) }} />
+			                	<input type="checkbox" id="{{ 'attribute_switch_'.$attribute->id }}" switch="none" class="parent_check" name="attributes[]" value="{{ $attribute->id }}"  {{ checked($cat_attributes, $attribute->id, TRUE) }} />
 			                	<label for="{{ 'attribute_switch_'.$attribute->id }}" data-on-label="Yes"
 			                	        data-off-label="No" class="mb-0"></label>
 			                </div>
@@ -74,10 +71,7 @@
 			                <div class="card-body bg-light border d-flex flex-wrap">
 			                    @foreach($attribute->attr_options as $attr_option)
 			                    	<div class="form-check list-group-item border my-1 mx-1 flex-fill child_list">
-			                    	  	<label class="form-check-label ">
-			                    	    	<input type="checkbox" class="form-check-input child_check m-0 relative" name="attr_options[]" value="{{ $attr_option->id }}" {{ checked($cat_options, $attr_option->id, TRUE) }}>
-			                    	    	{{ $attr_option->attr_option }}
-			                    	  	</label>
+			                    	  	{{ $attr_option->attr_option }}
 			                    	</div>
 			                    @endforeach
 			                </div>
@@ -101,13 +95,6 @@
 	<script>
 		$(document).ready(function($) {
 			$("#accordion").find('.collapse').first().addClass('show');
-			$(".parent_check").change(function(event) {
-				if($(this).is(':checked')){
-					$(this).parent().parent().next().find('.child_check').prop( "checked", true );
-				}else{
-					$(this).parent().parent().next().find('.child_check').prop( "checked", false );
-				}
-			});
 		});
 	</script>
 @endsection

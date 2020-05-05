@@ -17,16 +17,15 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('product_name', 255);
             $table->string('subtitle', 255)->nullable();
-            $table->integer('category_id')->nullable();
             $table->float('base_price', 10, 2)->default('0.00');
             $table->float('base_discount', 10, 2)->default('0.00');
+            $table->integer('base_stock')->nullable()->default('0');
             $table->text('short_description')->nullable();
             $table->text('product_tags')->nullable();
-            $table->string('slug');
-            $table->float('rating', 10, 1)->default('0')->nullable();
-            $table->integer('reviews')->default('0')->nullable();
+            $table->integer('brand_id')->nullable();
             $table->boolean('featured')->default(false)->nullable();
             $table->boolean('status')->default(true)->nullable();
+            $table->string('slug');
             $table->timestamps();
         });
     }

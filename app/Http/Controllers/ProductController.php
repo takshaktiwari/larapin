@@ -18,17 +18,20 @@ class ProductController extends Controller
     	$categories = \App\Category::whereNull('parent')
     								->with('child_categories')
     								->get()->all();
-    	return view('admin/products/product_create')->with('categories', $categories);
+        $brands = \App\Brand::orderBy('brand', 'ASC')->get()->all();
+    	return view('admin/products/product_create')
+                                ->with('categories', $categories)
+                                ->with('brands', $brands);
     }
 
-    public function update(Request $request)
+    public function store(Request $request)
     {
     	$request->validate([
     		'product_name'		=>	'required|max:250|unique:products,product_name',
-    		'category_id'		=>	'required|numeric',
     		'subtitle'			=>	'nullable|max:250',
     		'base_price'		=>	'required',
     		'base_discount'		=>	'nullable',
+            'base_stock'        =>  'required|numeric',
     		'featured'			=>	'required|numeric',
     		'status'			=>	'required|numeric',
     	]);
@@ -38,16 +41,19 @@ class ProductController extends Controller
 
     	$product = 	Product::create([
 						'product_name'		=>	$request->post('product_name'),
-						'category_id'		=>	$request->post('category_id'),
 						'subtitle'			=>	$request->post('subtitle'),
 						'base_price'		=>	$request->post('base_price'),
 						'base_discount'		=>	$request->post('base_discount'),
-						'featured'			=>	$request->post('featured'),
+                        'base_stock'        =>  $request->post('base_stock'),
+						'brand_id'			=>	$request->post('brand_id'),
+                        'featured'          =>  $request->post('featured'),
 						'status'			=>	$request->post('status'),
 						'short_description'	=>	$request->post('short_description'),
 						'product_tags'		=>	$request->post('product_tags'),
 						'slug'				=>	$slug
 					]);
+
+        $product->categories()->sync($request->post('categories'));
     	
     	\App\Product_detail::create(['product_id' => $product->id]);
 
@@ -58,11 +64,13 @@ class ProductController extends Controller
     public function edit($id)
     {
     	$product = Product::find($id);
+        $brands = \App\Brand::orderBy('brand', 'ASC')->get()->all();
     	$categories = \App\Category::whereNull('parent')
     								->with('child_categories')
     								->get()->all();
     	return view('admin/products/product_info')
     				->with('product', $product)
+                    ->with('brands', $brands)
     				->with('categories', $categories);
     }
 
@@ -70,13 +78,15 @@ class ProductController extends Controller
     {
         $request->validate([
             'product_name'      =>  'required|max:250',
-            'category_id'       =>  'required|numeric',
             'subtitle'          =>  'nullable|max:250',
             'base_price'        =>  'required',
             'base_discount'     =>  'nullable',
+            'base_stock'        =>  'nullable|numeric',
             'featured'          =>  'required|numeric',
             'status'            =>  'required|numeric',
         ]);
+
+
 
         $slug = str_replace(' ', '-', strtolower(trim($request->post('product_name'))));
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);
@@ -84,10 +94,11 @@ class ProductController extends Controller
         Product::where('id', $request->post('product_id'))
                     ->update([
                         'product_name'      =>  $request->post('product_name'),
-                        'category_id'       =>  $request->post('category_id'),
                         'subtitle'          =>  $request->post('subtitle'),
                         'base_price'        =>  $request->post('base_price'),
                         'base_discount'     =>  $request->post('base_discount'),
+                        'base_stock'        =>  $request->post('base_stock'),
+                        'brand_id'          =>  $request->post('brand_id'),
                         'featured'          =>  $request->post('featured'),
                         'status'            =>  $request->post('status'),
                         'short_description' =>  $request->post('short_description'),
@@ -96,6 +107,8 @@ class ProductController extends Controller
                     ]);
         
         $product = Product::find($request->post('product_id'));
+        $product->categories()->sync($request->post('categories'));
+
         if (empty($product->details)) {
             \App\Product_detail::create(['product_id' => $product->id]);
         }

@@ -13,24 +13,27 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-    	User::truncate();
+    	\DB::table('users')->delete();
 
         User::create([
         	'name'		=>	'Romeo Tr',
         	'email'		=>	'silentromeo94@gmail.com',
         	'password'	=>	Hash::make('123456'),
+            'role_id'   =>  '1'
         ]);
 
         User::create([
         	'name'		=>	'Takshak Tiwari',
         	'email'		=>	'takshaktiwari@gmail.com',
         	'password'	=>	Hash::make('123456'),
+            'role_id'   =>  '2'
         ]);
 
         User::create([
         	'name'		=>	'Mr Tiwari',
         	'email'		=>	'silentromeo95@gmail.com',
         	'password'	=>	Hash::make('123456'),
+            'role_id'   =>  '3'
         ]);
     }
 }

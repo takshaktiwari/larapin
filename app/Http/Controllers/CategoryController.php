@@ -110,6 +110,9 @@ class CategoryController extends Controller
     {
         $category = Category::find($request->post('category_id'));
         $category->locations()->sync($request->post('location'));
+        $category->states()->sync($request->post('states'));
+        $category->countries()->sync($request->post('countries'));
+
         return redirect('admin/categories')->withErrors('UPDATED !! Category Locations are successfully updated');
     }
 
@@ -118,7 +121,7 @@ class CategoryController extends Controller
         $attributes = \App\Attribute::withCount('attr_options')
                                     ->with('attr_options')
                                     ->get()->all();
-        $category   = Category::with('attributes')->with('attr_options')->find($id);
+        $category   = Category::with('attributes')->find($id);
         return view('admin/categories/category_attributes')
                                 ->with('attributes', $attributes)
                                 ->with('category', $category);
@@ -128,7 +131,6 @@ class CategoryController extends Controller
     {
         $category = Category::find($request->post('category_id'));
         $category->attributes()->sync($request->post('attributes'));
-        $category->attr_options()->sync($request->post('attr_options'));
         return redirect('admin/categories')->withErrors('UPDATED !! Category Attributes are successfully updated');
     }
 

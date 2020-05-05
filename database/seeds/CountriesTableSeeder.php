@@ -19,7 +19,7 @@ class CountriesTableSeeder extends Seeder
     	State::truncate();
     	Location::truncate();
 
-        for($i=0; $i<=10; $i++){
+        for($i=0; $i<=4; $i++){
 
         	$name = $faker->country;
         	$slug = str_replace(' ', '-', strtolower(trim($name)));
@@ -30,7 +30,7 @@ class CountriesTableSeeder extends Seeder
         						'slug'		=>	$slug,
         					]);
 
-        	for($j=0; $j<=rand(6, 10); $j++){
+        	for($j=0; $j<=rand(4, 6); $j++){
         		$name = $faker->state;
         		$slug = str_replace(' ', '-', strtolower(trim($name)));
         		$slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);
@@ -40,7 +40,7 @@ class CountriesTableSeeder extends Seeder
         						'slug'		=>	$slug
         					]);
 
-        		for($k=0; $k<=rand(10, 15); $k++){
+        		for($k=0; $k<=rand(4, 8); $k++){
         			$name = $faker->city;
         			$slug = str_replace(' ', '-', strtolower(trim($name)));
         			$slug = preg_replace('/[^A-Za-z0-9\-]/', '', $slug);

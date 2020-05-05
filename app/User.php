@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'email_verified_at'
+        'name', 'email', 'password', 'email_verified_at', 'api_token'
     ];
 
     /**
@@ -37,8 +37,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
+    }
+
     public function detail($value='')
     {
         return $this->hasOne('App\User_detail');
+    }
+
+    public function addesses()
+    {
+        return $this->hasMany('App\User_address');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany('App\Product_review');
     }
 }

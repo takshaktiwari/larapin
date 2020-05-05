@@ -63,11 +63,14 @@ class ProductImageController extends Controller
 				    	'image_md'		=>	$image_md,
 				    	'image_sm'		=>	$image_sm,
 				    	'title'			=>	$request->post('title'),
-				    	'primary_img'	=>	true
+				    	'primary_img'	=>	false
 				    ]);
     			} # endif
     		} # endforeach
     	} # endif -outer
+
+        Product_image::where('product_id', $product->id)->update(['primary_img' => false]);
+        Product_image::where('product_id', $product->id)->first()->update(['primary_img' => true]);
 
     	return redirect('admin/product/images/'.$product->id)
     				->withErrors('UPDATED !! Product images are successfully updated');
@@ -78,9 +81,12 @@ class ProductImageController extends Controller
     	$image = Product_image::find($img_id);
     	Product_image::where('id', $img_id)->delete();
     	if (isset($image->primary_img) && $image->primary_img == '1') {
-    		Product_image::where('product_id', $image->product_id)
-    						->first()
-    						->update(['primary_img' => true]);
+    		$product_image = Product_image::where('product_id', $image->product_id)
+                                            ->first();
+
+            if ($product_image) {
+                $product_image->update(['primary_img' => true]);
+            }
     	}
     	return redirect()->back()
     				->withErrors('DELETED !! Product image is successfully deleted');

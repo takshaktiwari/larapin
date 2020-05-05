@@ -15,7 +15,7 @@ class CreateUserDetailsTable extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->string('user_img', 255)->nullable();
             $table->string('mobile', 20)->nullable();
             $table->string('gender', 20)->nullable();
@@ -23,7 +23,12 @@ class CreateUserDetailsTable extends Migration
             $table->string('google_id')->nullable();
             $table->string('twitter_id')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
+
+        /*Schema::table('user_details', function($table) {
+            $table->foreign('user_id')->references('id')->on('users');
+        });*/
     }
 
     /**

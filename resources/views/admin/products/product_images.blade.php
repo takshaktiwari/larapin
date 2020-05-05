@@ -55,23 +55,24 @@
         				</form>
                     </div>
                     <div class="col-md-7">
-                        <div class="d-flex flex-wrap">
+                        <div class="row">
                             @foreach($product->images as $image)
-                                <div class="p-auto text-center mb-3 mx-2 img_block">
+                                <div class="col-md-6 pb-3">
                                     <img src="{{ url('storage/'.$image->image_sm) }}" class="w-100 img-thumbnail">
                                     <div class="border">
-                                        <p class="m-0 py-1 small">{{ $image->title }}</p>
+                                        <p class="m-0 p-1 small">{{ $image->title }}</p>
                                         <div class="d-flex">
                                             @if($image->primary_img == false)
-                                            <a href="{{ url('admin/product/images/primary', $image->id) }}" class="flex-fill btn btn-warning rounded-0" title="Make primary">
-                                                <i class="far fa-sun"></i>
-                                                Primary
-                                            </a>
+                                                <a href="{{ url('admin/product/images/primary', $image->id) }}" class="flex-fill btn btn-warning rounded-0" title="Make primary">
+                                                    <i class="far fa-sun"></i>
+                                                    Primary
+                                                </a>
+                                                <a href="{{ url('admin/product/images/delete', $image->id) }}" class="flex-fill btn btn-danger rounded-0" title="Make primary" onclick="return confirm('Are you sure to delete')">
+                                                    <i class="fas fa-trash"></i>
+                                                    Delete
+                                                </a>
                                             @endif
-                                            <a href="{{ url('admin/product/images/delete', $image->id) }}" class="flex-fill btn btn-danger rounded-0" title="Make primary" onclick="return confirm('Are you sure to delete')">
-                                                <i class="fas fa-trash"></i>
-                                                Delete
-                                            </a>
+                                            
                                         </div>
                                     </div>
                                 </div>

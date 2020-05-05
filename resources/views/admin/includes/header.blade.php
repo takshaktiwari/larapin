@@ -3,7 +3,7 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="index-2.html" class="logo logo-dark">
+                <a href="{{ url('admin/home') }}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{ url('assets/admin/images/logo.svg') }}" alt="" height="22">
                     </span>
@@ -12,7 +12,7 @@
                     </span>
                 </a>
 
-                <a href="index-2.html" class="logo logo-light">
+                <a href="{{ url('admin/home') }}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{{ url('assets/admin/images/logo-sm.png') }}" alt="" height="22">
                     </span>
@@ -29,15 +29,36 @@
             <div class="d-none d-sm-block">
                 <div class="dropdown pt-3 d-inline-block">
                     <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Create <i class="fas fa-caret-down"></i>
-                        </a>
+                        Shortcuts <i class="fas fa-caret-down"></i>
+                    </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="{{ url('admin/home') }}">
+                            <i class="fas fa-home mr-1"></i>
+                            Dashboard
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
+                        <a class="dropdown-item" href="{{ url('admin/categories') }}">
+                            <i class="fas fa-tags mr-1"></i>
+                            Categories
+                        </a>
+                        <a class="dropdown-item" href="{{ url('admin/product/create') }}">
+                            <i class="fas fa-box-open mr-1"></i>
+                            Product Create
+                        </a>
+                        <a class="dropdown-item" href="{{ url('admin/products') }}">
+                            <i class="fas fa-box-open mr-1"></i>
+                            Product List
+                        </a>
+                        <a class="dropdown-item" href="{{ url('admin/users') }}">
+                            <i class="fas fa-users mr-1"></i>
+                            Users List
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ url('logout') }}">
+                            <i class="fas fa-power-off mr-1"></i> 
+                            Logout
+                        </a>
                     </div>
                 </div>
             </div>
@@ -114,12 +135,28 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle font-size-17 align-middle mr-1"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i class="mdi mdi-wallet font-size-17 align-middle mr-1"></i> My Wallet</a>
-                    <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings font-size-17 align-middle mr-1"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline font-size-17 align-middle mr-1"></i> Lock screen</a>
+                    <a class="dropdown-item" href="{{ url('admin/home') }}">
+                        <i class="mdi mdi-account-circle font-size-17 align-middle mr-1"></i>
+                        <i class="fas fa-home mr-1"></i>
+                        Dashboard
+                    </a>
+
+                    <a class="dropdown-item" href="{{ url('admin/change_password') }}">
+                        <i class="mdi mdi-lock-open-outline font-size-17 align-middle mr-1"></i> 
+                        <i class="fas fa-key mr-1"></i>
+                        Password
+                    </a>
+
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="#"><i class="bx bx-power-off font-size-17 align-middle mr-1 text-danger"></i> Logout</a>
+                    <a class="dropdown-item text-danger" href="{{ route('logout') }}" 
+                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        <i class="bx bx-power-off font-size-17 align-middle mr-1 text-danger"></i>
+                        <i class="fas fa-power-off mr-1"></i> 
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </div>
 

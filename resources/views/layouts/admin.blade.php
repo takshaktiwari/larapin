@@ -13,10 +13,11 @@
         <link rel="shortcut icon" href="{{ url('assets/admin/images/favicon.ico') }}">
         
         @section('styles')
-        <link href="{{ url('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <link href="{{ url('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ url('assets/admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+            <link href="{{ url('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+            <link href="{{ url('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ url('assets/admin/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
         @show
+
     </head>
 
     <body data-sidebar="dark">
@@ -67,7 +68,6 @@
         <script src="{{ url('assets/admin/libs/node-waves/waves.min.js') }}"></script>
         <script src="{{ url('assets/admin/js/app.js') }}"></script>
         @show
-        
         
     </body>
 </html>
