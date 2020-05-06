@@ -38,4 +38,9 @@ class Category extends Model
         return $this->belongsToMany('App\Attribute');
     }
 
+    public function discount_category()
+    {
+        return $this->hasOne('App\Discount_category');
+    }
+
 }

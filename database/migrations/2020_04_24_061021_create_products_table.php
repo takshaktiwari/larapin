@@ -18,7 +18,6 @@ class CreateProductsTable extends Migration
             $table->string('product_name', 255);
             $table->string('subtitle', 255)->nullable();
             $table->float('base_price', 10, 2)->default('0.00');
-            $table->float('base_discount', 10, 2)->default('0.00');
             $table->integer('base_stock')->nullable()->default('0');
             $table->text('short_description')->nullable();
             $table->text('product_tags')->nullable();

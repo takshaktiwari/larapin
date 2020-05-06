@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
-use App\Product_variant;
+use App\Product_attr;
+use App\Product_option;
 use Illuminate\Http\Request;
 
 class ProductVariantController extends Controller
@@ -14,7 +15,8 @@ class ProductVariantController extends Controller
     	$product = Product::with(['categories' => function($query){
                         $query->with('attributes');
                         $query->has('attributes', '>', '0');
-                    }])->find($id);
+                    }])
+                    ->find($id);
 
         $attributes_id = [];
 
@@ -39,23 +41,32 @@ class ProductVariantController extends Controller
     {
     	$data = $request->all();
 
-    	Product_variant::where('product_id', $request->post('product_id'))->delete();
+    	Product_attr::where('product_id', $request->post('product_id'))->delete();
+        Product_option::where('product_id', $request->post('product_id'))->delete();
+
+        
+
     	if(isset($data['attributes']) && count($data['attributes']) > 0){
     		foreach ($data['attributes'] as $attribute) {
 
     			if (isset($attribute['id'])) {
     				$attribute_id = $attribute['id'];
 
+                    $product_attr = Product_attr::create([
+                                        'product_id'    =>  $request->post('product_id'),
+                                        'attribute_id'  =>  $attribute_id
+                                    ]);
+
     				foreach ($attribute['attr_options'] as $key => $attr_option) {
     					if (isset($attr_option['id'])) {
-    						$arr = Product_variant::create([
+
+    						Product_option::create([
     							'product_id'	   =>	$request->post('product_id'),
     							'attribute_id'	   =>	$attribute_id,
+    							'product_attr_id'  =>	$product_attr->id,
     							'attr_option_id'   =>	$attr_option['id'],
-    							'attr_option_name' =>	$key,
     							'price'			   =>	$attr_option['price'],
-    							'discount'		   =>	$attr_option['discount'],
-                                'stock'            =>   $attr_option['stock'],
+    							'stock'		       =>	$attr_option['stock'],
     						]);
     					}
     				} # endforeach

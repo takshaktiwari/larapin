@@ -59,7 +59,7 @@ class ProductController extends Controller
     	}else{
     		$product = Product::with('reviews')
                         ->find($request->input('product_id'));
-
+            
     		return new ProductResource($product);
     	}
     }

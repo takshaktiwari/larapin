@@ -14,8 +14,8 @@
 
 @php
     # existing product attributes
-    $pr_attributes = $product->variants->pluck('attribute_id')->toArray();
-    $pr_attributes = array_unique($pr_attributes);
+    $product_attrs = $product->product_attrs->pluck('attribute_id')->toArray();
+    $product_options = $product->product_options->pluck('attr_option_id')->toArray();
 @endphp
     <div class="container-fluid">
     	<!-- start page title -->
@@ -52,11 +52,6 @@
                         {{ $product->base_price }}
                     </li>
                     <li class="py-2 px-3 text-danger border">
-                        <b class="mr-1">Base Discount:</b>
-                        <i class="fas fa-rupee-sign"></i>
-                        {{ $product->base_discount }}
-                    </li>
-                    <li class="py-2 px-3 text-danger border">
                         <b class="mr-1">Base Stock:</b>
                         {{ $product->base_stock }}
                     </li>
@@ -84,7 +79,7 @@
                                         </a>
                                     </h6>
                                     <div class="my-auto custom_check">
-                                        <input type="checkbox" id="{{ 'attribute_switch_'.$attribute->id }}" switch="dark" class="parent_check" name="attributes[{{ $attribute->attribute }}][id]" value="{{ $attribute->id }}"  {{ checked($pr_attributes, $attribute->id, TRUE) }} />
+                                        <input type="checkbox" id="{{ 'attribute_switch_'.$attribute->id }}" switch="dark" class="parent_check" name="attributes[{{ $attribute->id }}][id]" value="{{ $attribute->id }}"  {{ checked($product_attrs, $attribute->id, TRUE) }} />
                                         <label for="{{ 'attribute_switch_'.$attribute->id }}" data-on-label="Yes"
                                                 data-off-label="No" class="mb-0"></label>
                                     </div>
@@ -96,10 +91,10 @@
                                         <div class="row">
                                         @foreach($attribute->attr_options as $attr_option)
                                             @php
-                                                $pr_variant = pr_variant($product, $attr_option);
+                                                $product_option = pr_variant($product, $attr_option);
 
                                                 $style="";
-                                                if($pr_variant['checked'] != 'checked'){
+                                                if($product_option['checked'] != 'checked'){
                                                     $style = 'display:none';
                                                 }
                                             @endphp
@@ -107,17 +102,15 @@
                                                 <div class="child_list mb-4">
                                                     <div class="form-check my-2">
                                                         <label class="form-check-label">
-                                                            <input type="checkbox" class="form-check-input child_check" name="attributes[{{ $attribute->attribute }}][attr_options][{{ $attr_option->attr_option }}][id]" value="{{ $attr_option->id }}" {{ $pr_variant['checked'] }}>
+                                                            <input type="checkbox" class="form-check-input child_check" name="attributes[{{ $attribute->id }}][attr_options][{{ $attr_option->id }}][id]" value="{{ $attr_option->id }}" {{ $product_option['checked'] }}>
                                                             {{ $attr_option->attr_option }}
                                                         </label>
                                                     </div>
                                                     
                                                     <div class="child_inputs" style="{{ $style }}">
-                                                        <input type="text" name="attributes[{{ $attribute->attribute }}][attr_options][{{ $attr_option->attr_option }}][price]" class="form-control text-center rounded-0 flex-fill" placeholder="(+ / -) Price" value="{{ $pr_variant['price'] }}">
+                                                        <input type="text" name="attributes[{{ $attribute->id }}][attr_options][{{ $attr_option->id }}][price]" class="form-control text-center rounded-0 flex-fill" placeholder="(+ / -) Price" value="{{ $product_option['price'] }}">
 
-                                                        <input type="text" name="attributes[{{ $attribute->attribute }}][attr_options][{{ $attr_option->attr_option }}][discount]" class="form-control text-center rounded-0 flex-fill" placeholder="Discount Total" value="{{ $pr_variant['discount'] }}">
-
-                                                        <input type="text" name="attributes[{{ $attribute->attribute }}][attr_options][{{ $attr_option->attr_option }}][stock]" class="form-control text-center rounded-0 flex-fill" placeholder="Stock" value="{{ $pr_variant['stock'] }}">
+                                                        <input type="text" name="attributes[{{ $attribute->id }}][attr_options][{{ $attr_option->id }}][stock]" class="form-control text-center rounded-0 flex-fill" placeholder="Stock" value="{{ $product_option['stock'] }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,18 +131,17 @@
 
     @php
         function pr_variant($product, $attr_option){
+
             $arr['checked']     = '';
             $arr['price']       = '';
-            $arr['discount']    = '';
             $arr['stock']       = '';
 
-            foreach ($product->variants as $variant) {
-                if($attr_option->id == $variant->attr_option_id && 
-                    $attr_option->attribute_id == $variant->attribute_id){
+            foreach ($product->product_options as $product_option) {
+                if($attr_option->id == $product_option->attr_option_id){
+
                     $arr['checked']     = 'checked';
-                    $arr['price']       = $variant->price;
-                    $arr['discount']    = $variant->discount;
-                    $arr['stock']       = $variant->stock;
+                    $arr['price']       = $product_option->price;
+                    $arr['stock']       = $product_option->stock;
 
                     break;
                 }

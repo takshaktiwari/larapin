@@ -58,11 +58,6 @@
 					                	{{ $product->base_price }}
 					                </div>
 					                <div>
-					                	<b class="mr-1">Discount: </b>
-					                	<i class="fas fa-rupee-sign"></i>
-					                	{{ $product->base_discount }}
-					                </div>
-					                <div>
 					                	<b class="mr-1">Stock: </b>
 					                	{{ $product->base_stock }}
 					                </div>

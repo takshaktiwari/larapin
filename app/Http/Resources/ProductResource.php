@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProductImageResource;
 use App\Http\Resources\ProductDetailResource;
-use App\Http\Resources\ProductVariantResource;
+use App\Http\Resources\ProductAttrResource;
 use App\Http\Resources\ProductReviewResource;
 
 class ProductResource extends JsonResource
@@ -23,7 +23,6 @@ class ProductResource extends JsonResource
             'product_name'  =>  $this->product_name,
             'subtitle'      =>  $this->subtitle,
             'base_price'    =>  $this->base_price,
-            'base_discount' =>  $this->base_discount,
             'base_stock'    =>  $this->base_stock,
             'rating'        =>  number_format($this->reviews->avg('rating'), 1),
             'reviews'       =>  $this->reviews->count(),
@@ -32,8 +31,8 @@ class ProductResource extends JsonResource
             'product_tags'  =>  $this->product_tags,
             'short_description' =>  $this->short_description,
             'product_detail'    =>  new ProductDetailResource($this->details),
-            'product_variants'  =>  ProductVariantResource::collection($this->variants),
-            'product_images'    =>  ProductImageResource::collection($this->images)
+            'product_variants'  =>  ProductAttrResource::collection($this->product_attrs),
+            'product_images'    =>  ProductImageResource::collection($this->images),
         ];
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\AttrOptionResource;
 
-class AttrOptionResource extends JsonResource
+
+class ProductOptionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +17,9 @@ class AttrOptionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'attr_option'   => $this->attr_option,
-            'slug'          => $this->slug
+            'price'     =>  $this->price,
+            'stock'     =>  $this->stock,
+            'option'    =>  new AttrOptionResource($this->attr_option)
         ];
     }
 }

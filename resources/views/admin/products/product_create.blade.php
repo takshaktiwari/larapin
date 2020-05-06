@@ -100,24 +100,6 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Price <span class="text-danger">*</span></label>
-                                        <input type="text" name="base_price" required class="form-control" value="{{ old('base_price') }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Discount <span class="text-danger">*</span></label>
-                                        <input type="text" name="base_discount" required class="form-control" value="0.00" value="{{ old('base_discount') }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Stock <span class="text-danger">*</span></label>
-                                        <input type="text" name="base_stock" required class="form-control" value="0" value="{{ old('base_stock') }}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label for="">Brand Name </label>
                                         <select name="brand_id" class="form-control">
                                             <option value="">-- Select Brand --</option>
@@ -127,6 +109,18 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Price <span class="text-danger">*</span></label>
+                                        <input type="text" name="base_price" required class="form-control" value="{{ old('base_price') }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Stock <span class="text-danger">*</span></label>
+                                        <input type="text" name="base_stock" required class="form-control" value="0" value="{{ old('base_stock') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-4">

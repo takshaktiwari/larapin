@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product_variant extends Model
+class Product_option extends Model
 {
     protected $guarded = [];
 
@@ -13,7 +13,7 @@ class Product_variant extends Model
     	return $this->belongsTo('App\Product');
     }
 
-    public function attribute()
+    public function atrribute()
     {
     	return $this->belongsTo('App\Attribute');
     }
@@ -21,5 +21,10 @@ class Product_variant extends Model
     public function attr_option()
     {
     	return $this->belongsTo('App\Attr_option');
+    }
+
+    public function product_attr()
+    {
+    	return $this->belongsTo('App\Product_attr');
     }
 }

@@ -47,6 +47,17 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-percent"></i>
+                        <span>Offer (Discount)</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ url('admin/discount/categories') }}">Category Discount</a></li>
+                        <li><a href="{{ url('admin/discount/brands') }}">Brands Discount</a></li>
+                        <li><a href="{{ url('admin/discount/products') }}">Products Discount</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="{{ url('admin/product_reviews') }}" class=" waves-effect">
                         <i class="fas fa-comments"></i>
                         <span>Product Reviews</span>

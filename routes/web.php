@@ -89,6 +89,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('product_review/show/{id}', 'ProductReviewController@show');
 	Route::get('product_review/delete/{id}', 'ProductReviewController@destroy');
 
+	Route::get('discount/categories', 'DiscountCategoryController@index');
+	Route::post('discount/categories/update', 'DiscountCategoryController@update');
+
 	Route::get('countries', 'CountryController@index');
 	Route::get('country/create', 'CountryController@create');
 	Route::post('country/create', 'CountryController@store');

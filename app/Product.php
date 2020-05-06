@@ -23,9 +23,14 @@ class Product extends Model
     	return $this->hasOne('App\Product_detail');
     }
 
-    public function variants()
+    public function product_attrs()
     {
-    	return $this->hasMany('App\Product_variant');
+    	return $this->hasMany('App\Product_attr');
+    }
+
+    public function product_options()
+    {
+        return $this->hasMany('App\Product_option');
     }
 
     public function primary_img()

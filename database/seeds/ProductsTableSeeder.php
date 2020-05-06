@@ -6,7 +6,8 @@ use App\Attribute;
 use App\Category;
 use App\Product;
 use App\Product_detail;
-use App\Product_variant;
+use App\Product_attr;
+use App\Product_option;
 use App\Product_image;
 
 class ProductsTableSeeder extends Seeder
@@ -22,7 +23,8 @@ class ProductsTableSeeder extends Seeder
 
         Product::truncate();
         Product_detail::truncate();
-        Product_variant::truncate();
+        Product_attr::truncate();
+        Product_option::truncate();
         Product_image::truncate();
 
         #	products in all categories
@@ -37,7 +39,6 @@ class ProductsTableSeeder extends Seeder
 	        					'product_name'	=>	$name,
 	        					'subtitle'		=>	$faker->sentence($nbWords = rand(9, 12), $variableNbWords = true),
 	        					'base_price'	=>	number_format(rand(400, 600), 2),
-	        					'base_discount'	=>	number_format(rand(20, 150), 2),
 	        					'base_stock'	=>	rand(80, 150),
 	        					'short_description'	=>	$faker->paragraph($nbSentences = rand(3, 7), $variableNbSentences = true),
 	        					'product_tags'	=>	str_replace(' ', ',', $faker->paragraph($nbSentences = rand(3, 7), $variableNbSentences = true)),
@@ -73,15 +74,19 @@ class ProductsTableSeeder extends Seeder
 	        	}])->inRandomOrder()->limit(rand(0, 3))->get()->all();
 	        	foreach ($attributes as $attribute) {
 
+	        		$product_attr = Product_attr::create([
+	        			'product_id'	=>	$product->id,
+	        			'attribute_id'	=>	$attribute->id,
+	        		]);
+
 	        		foreach ($attribute->attr_options as $attr_option) {
-	        			Product_variant::create([
-	        				'product_id'	=>	$product->id,
-	        				'attribute_id'	=>	$attr_option->attribute_id,
-	        				'attr_option_id'=>	$attr_option->id,
-	        				'attr_option_name'	=>	$attr_option->attr_option,
-	        				'price'			=>	number_format(rand(-100, 100), 2),
-	        				'discount'		=>	number_format(rand(0, 100), 2),
-	        				'stock'			=>	rand(0, 100)
+	        			Product_option::create([
+	        				'product_id'		=>	$product->id,
+	        				'attribute_id'	   	=>	$attr_option->attribute_id,
+	        				'product_attr_id' 	=>	$product_attr->id,
+	        				'attr_option_id' 	=>	$attr_option->id,
+	        				'price'			   	=>	rand(-100, 100),
+	        				'stock'		       	=>	rand(50, 100),
 	        			]);
 	        		}
 	        	}
