@@ -91,6 +91,16 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 
 	Route::get('discount/categories', 'DiscountCategoryController@index');
 	Route::post('discount/categories/update', 'DiscountCategoryController@update');
+	Route::get('discount/products', 'DiscountProductController@index');
+	Route::post('discount/products/update', 'DiscountProductController@update');
+
+	Route::get('coupons', 'CouponController@index');
+	Route::get('coupon/create', 'CouponController@create');
+	Route::post('coupon/create', 'CouponController@store');
+	Route::get('coupon/edit/{id}', 'CouponController@edit');
+	Route::post('coupon/update', 'CouponController@update');
+	Route::get('coupon/delete/{id}', 'CouponController@destroy');
+	Route::get('coupon/show/{id}', 'CouponController@show');
 
 	Route::get('countries', 'CountryController@index');
 	Route::get('country/create', 'CountryController@create');
@@ -149,6 +159,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('page/edit/{user_id}', 'PageController@edit');
 	Route::post('page/update', 'PageController@update');
 	Route::get('page/delete/{user_id}', 'PageController@destroy');
+
+	Route::get('slider', 'SliderController@index');
+	Route::get('slide/create', 'SliderController@create');
+	Route::post('slide/create', 'SliderController@store');
+	Route::get('slide/edit/{id}', 'SliderController@edit');
+	Route::post('slide/update', 'SliderController@update');
+	Route::get('slide/delete/{id}', 'SliderController@destroy');
 });
 
 Route::post('ajax/get_country_states', 'AjaxController@get_country_states');

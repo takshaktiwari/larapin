@@ -47,4 +47,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Product_review');
     }
+
+    public function discount()
+    {
+        return $this->hasOne('App\Discount_product');
+    }
 }

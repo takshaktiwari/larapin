@@ -7,6 +7,7 @@ use App\Http\Resources\ProductImageResource;
 use App\Http\Resources\ProductDetailResource;
 use App\Http\Resources\ProductAttrResource;
 use App\Http\Resources\ProductReviewResource;
+use App\Http\Resources\DiscountResource;
 
 class ProductResource extends JsonResource
 {
@@ -24,6 +25,7 @@ class ProductResource extends JsonResource
             'subtitle'      =>  $this->subtitle,
             'base_price'    =>  $this->base_price,
             'base_stock'    =>  $this->base_stock,
+            'discount'      =>  new DiscountResource($this->discount),
             'rating'        =>  number_format($this->reviews->avg('rating'), 1),
             'reviews'       =>  $this->reviews->count(),
             'featured'      =>  $this->featured,

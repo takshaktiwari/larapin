@@ -33,7 +33,7 @@ class CategoriesTableSeeder extends Seeder
         }
 
 
-    	for($i=1; $i<=5; $i++){
+    	for($i=1; $i<=10; $i++){
 
 	    	$image = '/dump_images/image-'.rand(1, 13).'.jpg';
 	    	$name = $faker->company;

@@ -1,6 +1,4 @@
 
-
-
 $(".custom_alert").animate(
         {top: "80px", opacity: "1"}, 
         800,
@@ -16,7 +14,7 @@ $(".custom_alert").animate(
     "use strict";
     
     function s(e) {
-        var base_url = 'http://localhost/romeo/larapin/';
+        var base_url = 'http://localhost/projects/larapin/';
         console.log("updateThemeSetting", e), 1 == t("#light-mode-switch").prop("checked") && "light-mode-switch" === e ? (t("#dark-mode-switch").prop("checked", !1), t("#rtl-mode-switch").prop("checked", !1), t("#bootstrap-style").attr("href", base_url+"assets/admin/css/bootstrap.min.css"), t("#app-style").attr("href", base_url+"assets/admin/css/app.min.css"), sessionStorage.setItem("is_visited", "light-mode-switch")) : 1 == t("#dark-mode-switch").prop("checked") && "dark-mode-switch" === e ? (t("#light-mode-switch").prop("checked", !1), t("#rtl-mode-switch").prop("checked", !1), t("#bootstrap-style").attr("href", base_url+"assets/admin/css/bootstrap-dark.min.css"), t("#app-style").attr("href", base_url+"assets/admin/css/app-dark.min.css"), sessionStorage.setItem("is_visited", "dark-mode-switch")) : 1 == t("#rtl-mode-switch").prop("checked") && "rtl-mode-switch" === e && (t("#light-mode-switch").prop("checked", !1), t("#dark-mode-switch").prop("checked", !1), t("#bootstrap-style").attr("href", base_url+"assets/admin/css/bootstrap.min.css"), t("#app-style").attr("href", base_url+"assets/admin/css/app-rtl.min.css"), sessionStorage.setItem("is_visited", "rtl-mode-switch"))
     }
 

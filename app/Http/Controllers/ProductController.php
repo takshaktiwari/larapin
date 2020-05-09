@@ -54,6 +54,7 @@ class ProductController extends Controller
         $product->categories()->sync($request->post('categories'));
     	
     	\App\Product_detail::create(['product_id' => $product->id]);
+        \App\Discount_product::create(['product_id' => $product->id]);
 
     	return redirect('admin/product/details/'.$product->id)
     				->withErrors('CREATED !! New Product '.$request->post('product_name').' is successfully created. Please uodate other product informations.');

@@ -19,7 +19,7 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
-    	            <a href="{{ url('admin/countries') }}" class="btn btn-primary">+ All Countries</a>
+    	            <a href="{{ url('admin/countries') }}" class="btn btn-primary">All Countries</a>
     	        </div>
     	    </div>
     	</div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Discount_category extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ['category_id', 'discount', 'expires_at'];
 
     public function category()
     {

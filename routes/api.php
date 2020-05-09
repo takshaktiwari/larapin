@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 Route::post('register', 'Api\UserController@register');
 Route::post('login', 'Api\UserController@login');
 
+Route::get('slider', 'Api\SliderController@index');
+
 Route::get('categories', 'Api\CategoryController@categories');
 Route::get('category', 'Api\CategoryController@category');
 Route::get('products', 'Api\ProductController@products');

@@ -9,6 +9,7 @@ use App\Product_detail;
 use App\Product_attr;
 use App\Product_option;
 use App\Product_image;
+use App\Discount_product;
 
 class ProductsTableSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class ProductsTableSeeder extends Seeder
         Product_attr::truncate();
         Product_option::truncate();
         Product_image::truncate();
+        Discount_product::truncate();
 
         #	products in all categories
         foreach ($categories as $category) {
@@ -108,6 +110,8 @@ class ProductsTableSeeder extends Seeder
 	        	Product_image::where('product_id', $product->id)
 	        					->first()
 	        					->update(['primary_img' => true]);
+
+	        	Discount_product::create(['product_id' => $product->id]);
         	}
         }
     }

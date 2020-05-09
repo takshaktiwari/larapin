@@ -52,15 +52,28 @@
                         <span>Offer (Discount)</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ url('admin/discount/categories') }}">Category Discount</a></li>
-                        <li><a href="{{ url('admin/discount/brands') }}">Brands Discount</a></li>
-                        <li><a href="{{ url('admin/discount/products') }}">Products Discount</a></li>
+                        <li>
+                            <a href="{{ url('admin/discount/categories') }}">
+                                Category Discount
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('admin/discount/products') }}">
+                                Products Discount
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li>
                     <a href="{{ url('admin/product_reviews') }}" class=" waves-effect">
                         <i class="fas fa-comments"></i>
                         <span>Product Reviews</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/coupons') }}" class=" waves-effect">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>Coupons</span>
                     </a>
                 </li>
 
@@ -111,11 +124,17 @@
                     </a>
                 </li>
 
-                <li class="menu-title">Others</li>
+                <li class="menu-title">Site & Settings</li>
                 <li>
                     <a href="{{ url('admin/pages') }}" class=" waves-effect">
                         <i class="fas fa-file-alt"></i>
                         <span>Pages</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url('admin/slider') }}" class=" waves-effect">
+                        <i class="fas fa-images"></i>
+                        <span>Slider</span>
                     </a>
                 </li>
             </ul>

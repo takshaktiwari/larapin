@@ -17,12 +17,22 @@
     	    </div>
 
     	    <div class="col-sm-6">
-    	        <div class="float-right d-none d-md-block">
+    	        <div class="float-right d-none d-md-block" >
+    	            <a class="btn border font-weight-bold" data-toggle="collapse" data-target="#filter">
+    	            	<i class="fas fa-sliders-h"></i>
+    	            	Filter
+    	            </a>
     	            <a href="{{ url('admin/category/create') }}" class="btn btn-primary">+ Create New</a>
     	        </div>
     	    </div>
     	</div>
     	<!-- end page title -->
+
+    	<div class="card">
+    		<div class="card-body">
+    			<form action=""></form>
+    		</div>
+    	</div>
 
 		<div class="card">
 			<div class="card-body table-responsive">

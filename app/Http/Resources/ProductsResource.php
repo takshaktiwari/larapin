@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ProductImageResource;
+use App\Http\Resources\DiscountResource;
+
 
 class ProductsResource extends JsonResource
 {
@@ -20,8 +22,8 @@ class ProductsResource extends JsonResource
             'product_name'  =>  $this->product_name,
             'subtitle'      =>  $this->subtitle,
             'base_price'    =>  $this->base_price,
-            'base_discount' =>  $this->base_discount,
             'base_stock'    =>  $this->base_stock,
+            'discount'      =>  new DiscountResource($this->discount),
             'rating'        =>  number_format($this->reviews->avg('rating'), 1),
             'reviews'       =>  $this->reviews->count(),
             'featured'      =>  $this->featured,
