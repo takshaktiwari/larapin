@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function home()
+    {
+        if (Auth::user()->id != '3') {
+            return redirect('admin/home');
+        }
+        return view('user/home');
+    }
+
+
     public function index($value='')
     {
     	$users = User::paginate(25);

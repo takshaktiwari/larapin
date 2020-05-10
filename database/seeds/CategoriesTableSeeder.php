@@ -35,7 +35,7 @@ class CategoriesTableSeeder extends Seeder
 
     	for($i=1; $i<=10; $i++){
 
-	    	$image = '/dump_images/image-'.rand(1, 13).'.jpg';
+	    	$image = '/dump_products/category/category-'.rand(1, 22).'.jpg';
 	    	$name = $faker->company;
 
 	    	$slug = str_replace(' ', '-', strtolower(trim($name)));

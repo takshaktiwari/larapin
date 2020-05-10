@@ -11,30 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/run', function () {
-	$output  = '<pre>';
-    Artisan::call("migrate:rollback");
-    $output .= Artisan::output();
-    $output .= '<br>';
-
-    Artisan::call("migrate");
-    $output .= Artisan::output();
-    $output .= '<br>';
-
-    Artisan::call("db:seed");
-    $output .= Artisan::output();
-
-    return $output;
-});
-
+Route::get('/', 'HomeController@index');
 Auth::routes();
 
+Route::get('categories', 'CategoryController@index');
+Route::get('shop', 'ShopController@index');
+Route::get('product/{slug}', 'ShopController@product');
 
-Route::get('template_mode_change', 'HomeController@template_mode_change');
+Route::get('user/home', 'UserController@home');
 
 Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('home', 'AdminController@index');

@@ -9,7 +9,8 @@ class HomeController extends Controller
     
     public function index()
     {
-        return view('home');
+    	$slider = \App\Slider::where('status', '1')->orderBy('set_order', 'ASC')->get()->all();
+        return view('home')->with('slider', $slider);
     }
 
 }

@@ -28,7 +28,7 @@
     	</div>
     	<!-- end page title -->
 
-    	<div class="card">
+    	<div class="card" id="filter">
     		<div class="card-body">
     			<form action=""></form>
     		</div>

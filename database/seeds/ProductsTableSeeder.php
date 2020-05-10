@@ -95,7 +95,7 @@ class ProductsTableSeeder extends Seeder
 
 	        	#	adding some images
 	        	for($i=0; $i<=rand(3, 6); $i++){
-	        		$image = '/dump_images/image-'.rand(1, 13).'.jpg';
+	        		$image = '/dump_products/product-'.rand(1, 44).'.jpg';
 
 	        		Product_image::create([
 	        			'product_id'	=>	$product->id,

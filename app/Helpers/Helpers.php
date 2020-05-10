@@ -6,6 +6,13 @@ function get_pages(){
 						->get()->all();
 }
 
+function feat_products($limit=6){
+	return \App\Product::where('featured', '1')
+						->where('status', '1')
+						->inRandomOrder()
+						->limit($limit)->get()->all();
+}
+
 function get_feat_categories($value='')
 {
 	return \App\Category::with('child_categories')
@@ -24,58 +31,12 @@ function get_categories($value='')
 						->get()->all();
 }
 
-function all_categories($value='')
+function product_sale_price($item='')
 {
-	return \App\Category::with('child_categories')
-						->where('status', '1')
-						->orderBy('category', 'ASC')
-						->get()->all();
-}
-
-function posts_featured($limit=''){
-	$query = \App\Post::with('category')
-						->where('status', '1')
-						->where('featured', '1');
-
-	if ($limit != '') {
-		$query = $query->limit($limit);
-	}
-
-	$query = $query->inRandomOrder()
-					->get()->all();
-
-	return $query;				
-}
-
-function posts_latest($limit=''){
-	$query = \App\Post::with('category')
-						->where('status', '1')
-						->where('featured', '1')
-						->orderBy('id', 'DESC');
-
-	if ($limit != '') {
-		$query = $query->paginate($limit);
+	if (!empty($item->discount->discount)) {
+		return $item->base_price - ($item->base_price * $item->discount->discount/100);
 	}else{
-		$query = $query->get()->all();
-	}
-
-	return $query;				
-}
-
-function setting($key='')
-{
-	$setting = 	cache()->rememberForever('settings', function () {
-				    $settings = \App\Setting::get()->all();
-				    $setting_arr = array();
-				    foreach ($settings as $key => $setting) {
-				    	$setting_arr[$setting->option] = $setting->option_value;
-				    }
-
-				    return $setting_arr;
-				});
-
-	if (isset($setting[$key])) {
-		return $setting[$key];
+		return $item->base_price;
 	}
 }
 
