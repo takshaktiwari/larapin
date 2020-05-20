@@ -9,17 +9,20 @@ class CouponController extends Controller
 {
     public function index()
     {
+        $this->authorize('coupon_access');
     	$coupons = Coupon::orderBy('id', 'DESC')->paginate(25);
     	return view('admin/coupons/coupons')->with('coupons', $coupons);
     }
 
     public function create()
     {
+        $this->authorize('coupon_create');
     	return view('admin/coupons/coupon_create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('coupon_create');
     	$request->validate([
     		'coupon'	=>	'required',
     		'percent'	=>	'required_without:amount|max:100',
@@ -41,18 +44,21 @@ class CouponController extends Controller
 
     public function show($id)
     {
+        $this->authorize('coupon_show');
         $coupon = Coupon::find($id);
         return view('admin/coupons/coupon_show')->with('coupon', $coupon);
     }
 
     public function edit($id)
     {
+        $this->authorize('coupon_update');
     	$coupon = Coupon::find($id);
     	return view('admin/coupons/coupon_edit')->with('coupon', $coupon);
     }
 
     public function update(Request $request)
     {
+        $this->authorize('coupon_update');
     	$request->validate([
     		'coupon'	=>	'required',
     		'percent'	=>	'required_without:amount|max:100',
@@ -74,6 +80,7 @@ class CouponController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('coupon_delete');
     	Coupon::find($id)->delete();
     	return redirect()->back()->withErrors('UPDATED !! Coupon is successfully updated');
     }

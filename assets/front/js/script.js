@@ -1,3 +1,62 @@
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/serviceworker.js', {
+        scope: '/'
+    }).then(function (registration) {
+        // Registration was successful
+        console.log('Laravel PWA: ServiceWorker registration successful with scope: ', registration.scope);
+    }, function (err) {
+        // registration failed :(
+        console.log('Laravel PWA: ServiceWorker registration failed: ', err);
+    });
+}
+
+let deferredPrompt;
+var buttonWrapper = document.querySelector("#installAppWrapper");
+var button = document.querySelector(".installAppBtn");
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+
+    buttonWrapper.classList.toggle('d-none', false);
+
+    button.addEventListener('click', (e) => {
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice
+          .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+        });
+    });
+});
+
+
+
+
+    
+
+$(".custom_alert").animate(
+        {top: "100px", opacity: "1"}, 
+        800,
+        'swing',
+        function(){
+            setTimeout( function(){ 
+                $(".custom_alert").animate({left: "0px", opacity: "0"}, 800);
+            }, 3500 );
+        }
+    );
+
+
+
 (function($) {
     "use strict";
     $(document).ready(function() {
@@ -108,7 +167,7 @@
             this.parentNode.querySelector('input[type=number]').stepUp();
         });
 
-        function priceTotaling() {
+/*        function priceTotaling() {
             var quantity = $(this).parent().find('input[type=number]').val();
             var price = $(this).parent().parent().find('.product-price').text();
             $(this).parent().parent().find('.product-total-price').text(quantity * price);
@@ -131,11 +190,10 @@
             });
         });
         $(".number-input button").on('click', priceTotaling);
-        $(".number-input").on('input', '.quantity', priceTotaling);
+        $(".number-input").on('input', '.quantity', priceTotaling);*/
         $(".add-wishlist").on('click', function() {
             $(this).toggleClass('wish');
         });
-        $('select').niceSelect();
         if ($('.wow').length) {
             var wow = new WOW({
                 boxClass: 'wow',

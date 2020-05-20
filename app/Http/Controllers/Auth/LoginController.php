@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     /*
@@ -37,4 +39,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+    public function login(Request $request)
+    {   
+        $request->validate([
+            'email'     => 'required',
+            'password'  => 'required',
+        ]);
+  
+        $fieldType = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'mobile';
+
+        if(auth()->attempt(array($fieldType => $request->input('email'), 'password' => $request->input('password')))){
+            return redirect($this->redirectTo);
+        }else{
+            return redirect()->route('login')
+                ->withErrors('Email-Address And Password Are Wrong.');
+        }
+    }
+
+
 }

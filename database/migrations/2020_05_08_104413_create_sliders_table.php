@@ -21,6 +21,8 @@ class CreateSlidersTable extends Migration
             $table->string('title', 255)->nullable();
             $table->string('caption', 255)->nullable();
             $table->integer('set_order')->nullable();
+            $table->string('url_link', 255)->nullable();
+            $table->string('url_text')->nullable();
             $table->string('slider_location')->nullable();
             $table->boolean('status')->default(true)->nullable();
             $table->timestamps();

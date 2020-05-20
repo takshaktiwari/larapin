@@ -9,6 +9,9 @@ function get_pages(){
 function feat_products($limit=6){
 	return \App\Product::where('featured', '1')
 						->where('status', '1')
+						->whereHas('primary_img', function($query){
+						    $query->whereNotNull('primary_img');
+						})
 						->inRandomOrder()
 						->limit($limit)->get()->all();
 }
@@ -34,7 +37,11 @@ function get_categories($value='')
 function product_sale_price($item='')
 {
 	if (!empty($item->discount->discount)) {
-		return $item->base_price - ($item->base_price * $item->discount->discount/100);
+		if ($item->discount->expires_at >= date('Y-m-d H:i:s')) {
+			return $item->base_price - ($item->base_price * $item->discount->discount/100);
+		}else{
+			return $item->base_price;
+		}
 	}else{
 		return $item->base_price;
 	}
@@ -70,12 +77,24 @@ function checked($val1='', $val2='', $arr=FALSE)
 	}
 }
 
-function get($key='')
-{
-	if (isset($_GET[$key])) {
-		return $_GET[$key];
+function get_setting($key='', $value=''){
+	if ($key != '') {
+		$query = \App\Setting::where('setting_key', trim($key));
+		if ($query->count() == '1') {
+			if ($value == 'all') {
+				return $query->first();
+			}elseif($value != ''){
+				return $query->first()->$value;
+			}else{
+				return $query->first()->setting_value;
+			}
+		}
+	}else{
+		return \App\Setting::get()->all();
 	}
 }
+
+
 
 function send_sms($mobile='', $msg='')
 {

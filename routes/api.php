@@ -33,10 +33,20 @@ Route::get('countries', 'Api\AddressConroller@countries');
 Route::get('country', 'Api\AddressConroller@country');
 Route::get('states', 'Api\AddressConroller@states');
 Route::get('state', 'Api\AddressConroller@state');
+Route::get('districts', 'Api\AddressConroller@districts');
+Route::get('district', 'Api\AddressConroller@district');
+Route::get('pincodes', 'Api\AddressConroller@pincodes');
+Route::get('pincode', 'Api\AddressConroller@pincode');
 Route::get('locations', 'Api\AddressConroller@locations');
 Route::get('location', 'Api\AddressConroller@location');
 
 Route::middleware('auth:api')->group(function(){
+	Route::post('change_password', 'Api\UserController@change_password');
+
+	Route::get('wishlist', 'Api\WishlistController@wishlist');
+	Route::get('wishlist/add', 'Api\WishlistController@add');
+	Route::get('wishlist/delete', 'Api\WishlistController@destroy');
+
 	Route::get('address', 'Api\AddressConroller@address');
 	Route::get('addresses', 'Api\AddressConroller@addresses');
 	Route::post('address_create', 'Api\AddressConroller@address_create');

@@ -62,6 +62,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="">URL Link </label>
+                                <input type="text" name="url_link" class="form-control" placeholder="https://webpage.con/page-url" >
+                            </div>
+                            <div class="form-group">
+                                <label for="">URL Text </label>
+                                <input type="text" name="url_text" class="form-control" placeholder="Click Here" value="View Details" >
+                            </div>
                             <input type="submit" class="btn btn-primary px-5">
                         </form>
                     </div>

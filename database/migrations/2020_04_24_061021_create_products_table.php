@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->text('short_description')->nullable();
             $table->text('product_tags')->nullable();
             $table->integer('brand_id')->nullable();
+            $table->boolean('in_offer')->default(false)->nullable();
             $table->boolean('featured')->default(false)->nullable();
             $table->boolean('status')->default(true)->nullable();
             $table->string('slug');

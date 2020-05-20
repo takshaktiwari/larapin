@@ -114,6 +114,26 @@ img {
     }
 }
 
+.small-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+/* Track */
+.small-scroll::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+/* Handle */
+.small-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+.small-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
 .section-title {
     margin-bottom: 80px;
     position: relative
@@ -126,7 +146,7 @@ img {
 
 .theme-btn,
 a.theme-btn {
-    background: #3dca79;
+    background: #ec2024;
     font-size: 14px;
     color: #fff;
     cursor: pointer;
@@ -293,7 +313,7 @@ label {
     font-family: poppins, sans-serif
 }
 
-.form-group input,
+.form-group input, .form-group select,
 .form-group textarea {
     color: #64687e;
     font-size: 14px;
@@ -350,8 +370,9 @@ footer:after {
     background-color: #fff;
     background-position: center center;
     background-repeat: no-repeat;
-    background-image: url(../img/preloader.svg);
-    background-size: 80px
+    background-image: url(../img/preloader.webp);
+    background-size: 80px;
+    transform: scale(2);
 }
 
 .slick-dots {
@@ -379,13 +400,13 @@ footer:after {
 }
 
 .slick-dots li.slick-active button {
-    background-color: #3dca79;
-    border: 1px solid #3dca79
+    background-color: #8c8c8c;
+    border: 1px solid #8c8c8c
 }
 
 .slick-slider .slick-arrow {
     color: #fff;
-    background: #3dca79;
+    background: #8c8c8c;
     cursor: pointer;
     position: absolute;
     z-index: 1;
@@ -435,6 +456,18 @@ footer:after {
 
 .color-black {
     color: #071c35
+}
+
+.bg-success{
+    background-color: #3dca79!important;
+}
+
+.bg-theme{
+    background-color: #ec2024;
+}
+
+.color-theme{
+    color: #ec2024;
 }
 
 .bg-white {

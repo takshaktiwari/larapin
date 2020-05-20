@@ -12,6 +12,7 @@ class ProductVariantController extends Controller
 {
     public function edit($id)
     {
+        $this->authorize('product_update_variants');
     	$product = Product::with(['categories' => function($query){
                         $query->with('attributes');
                         $query->has('attributes', '>', '0');
@@ -39,6 +40,7 @@ class ProductVariantController extends Controller
 
     public function update(Request $request)
     {
+        $this->authorize('product_update_variants');
     	$data = $request->all();
 
     	Product_attr::where('product_id', $request->post('product_id'))->delete();

@@ -55,12 +55,30 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="">Location Name <span class="text-danger">*</span></label>
-                                <input type="text" name="location" required class="form-control" value="{{ $location->location }}">
+                                <label for="">District <span class="text-danger">*</span></label>
+                                <select name="district_id" id="district_id" class="form-control" required>
+                                    <option value="">-- Select District --</option>
+                                    @foreach($districts as $district)
+                                        <option value="{{ $district->id }}" {{ selected($district->id, $location->district_id) }}>
+                                            {{ $district->district }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="">Pincode <span class="text-danger">*</span></label>
-                                <input type="text" name="pin_code" required class="form-control" value="{{ $location->pincode }}">
+                                <select name="pincode_id" id="pincode_id" class="form-control" required>
+                                    <option value="">-- Select Pincode --</option>
+                                    @foreach($pincodes as $pincode)
+                                        <option value="{{ $pincode->id }}" {{ selected($pincode->id, $location->pincode_id) }}>
+                                            {{ $pincode->pincode }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Location Name <span class="text-danger">*</span></label>
+                                <input type="text" name="location" required class="form-control" value="{{ $location->location }}">
                             </div>
                             <input type="hidden" name="location_id" value="{{ $location->id }}">
                             <input type="submit" class="btn btn-primary px-5">
@@ -91,6 +109,48 @@
                             if(result != ''){
                                 $.each(result, function(index, val) {
                                     $("#state_id").append('<option value="'+val.id+'">'+val.state+'</option>');
+                                });
+                            }
+                        }
+                    });
+                    
+                }
+            });
+
+            $("#state_id").change(function(event) {
+                var state_id = $(this).val();
+
+                if(state_id != ''){
+                    $.ajax({
+                        url: '{{ url('ajax/get_state_districts') }}',
+                        type: 'POST',
+                        data: {state_id: state_id ,_token: '{{csrf_token()}}'},
+                        success: function(result){
+                            $("#district_id").html('<option value="">-- Select District --</option>');
+                            if(result != ''){
+                                $.each(result, function(index, val) {
+                                    $("#district_id").append('<option value="'+val.id+'">'+val.district+'</option>');
+                                });
+                            }
+                        }
+                    });
+                    
+                }
+            });
+
+            $("#district_id").change(function(event) {
+                var district_id = $(this).val();
+
+                if(district_id != ''){
+                    $.ajax({
+                        url: '{{ url('ajax/get_district_pincodes') }}',
+                        type: 'POST',
+                        data: {district_id: district_id ,_token: '{{csrf_token()}}'},
+                        success: function(result){
+                            $("#pincode_id").html('<option value="">-- Select Country --</option>');
+                            if(result != ''){
+                                $.each(result, function(index, val) {
+                                    $("#pincode_id").append('<option value="'+val.id+'">'+val.pincode+'</option>');
                                 });
                             }
                         }

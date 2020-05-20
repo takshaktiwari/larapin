@@ -125,6 +125,15 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <label for="">In Offer <span class="text-danger">*</span></label>
+                                        <select name="in_offer" class="form-control" required>
+                                            <option value="0" {{ selected(old('in_offer'), '0') }}>No</option>
+                                            <option value="1" {{ selected(old('in_offer'), '1') }}>Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <label for="">Featured <span class="text-danger">*</span></label>
                                         <select name="featured" class="form-control" required>
                                             <option value="1" {{ selected(old('featured'), '1') }}>Yes</option>

@@ -10,18 +10,21 @@ class AttrOptionController extends Controller
 {
 	public function index($value='')
 	{
+		$this->authorize('attribute_option_access');
 		$attr_options = Attr_option::paginate();
 		return view('admin/attributes/attr_options')->with('attr_options', $attr_options);
 	}
 
 	public function create()
 	{
+		$this->authorize('attribute_option_create');
 		$attributes = Attribute::get()->all();
 		return view('admin/attributes/attr_option_create')->with('attributes', $attributes);
 	}
 
 	public function store(Request $request)
 	{
+		$this->authorize('attribute_option_create');
 		$request->validate([
 			'attribute_id'	=>	'required|numeric',
 			'attr_option'	=>	'required'
@@ -41,6 +44,7 @@ class AttrOptionController extends Controller
 
 	public function edit($id)
 	{
+		$this->authorize('attribute_option_update');
 		$attributes = Attribute::get()->all();
 		$attr_option = Attr_option::find($id);
 
@@ -51,6 +55,7 @@ class AttrOptionController extends Controller
 
 	public function update(Request $request)
 	{
+		$this->authorize('attribute_option_update');
 		$request->validate([
 			'attribute_id'	=>	'required|numeric',
 			'attr_option'	=>	'required'
@@ -71,6 +76,7 @@ class AttrOptionController extends Controller
 
 	public function destroy($id)
 	{
+		$this->authorize('attribute_option_delete');
 		Attr_option::where('id', $id)->delete();
 		return redirect('admin/attr_options')->withErrors('DELETED !! Option is successfully deleted');
 	}

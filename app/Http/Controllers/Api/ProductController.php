@@ -24,7 +24,11 @@ class ProductController extends Controller
     	if ($validation->fails()) {
     		return $validation->errors();
     	}else{
-    		$query = Product::with('reviews')->where('status', '1');
+    		$query = Product::with(['discount' => function($query){
+                                $query->where('expires_at', '>', date('Y-m-d H:i:s'));
+                                $query->orWhere('expires_at', null);
+                            }])
+                            ->with('reviews')->where('status', '1');
     		if($request->input('featured') != ''){
     			$query = $query->where('featured', $request->input('featured'));
     		}
@@ -57,8 +61,12 @@ class ProductController extends Controller
     	if ($validation->fails()) {
     		return $validation->errors();
     	}else{
-    		$product = Product::with('reviews')
-                        ->find($request->input('product_id'));
+    		$product = Product::with(['discount' => function($query){
+                                    $query->where('expires_at', '>', date('Y-m-d H:i:s'));
+                                    $query->orWhere('expires_at', null);
+                                }])
+                                ->with('reviews')
+                                ->find($request->input('product_id'));
             
     		return new ProductResource($product);
     	}

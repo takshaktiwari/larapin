@@ -18,7 +18,9 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+    	        	@can('state_create')
     	            <a href="{{ url('admin/state/create') }}" class="btn btn-primary">+ Create New</a>
+    	            @endcan
     	        </div>
     	    </div>
     	</div>
@@ -44,15 +46,23 @@
 					            <td>
 					                {{ $state->state }}
 					            </td>
-					            <td>{{ $state->country->country }}</td>
+					            <td>
+					            	@if(!empty($state->country->country))
+					            		{{ $state->country->country }}
+					            	@endif
+					            </td>
 					            <td class="font-size-20">
+					            	@can('state_update')
 				                    <a href="{{ url('admin/state/edit/'.$state->id) }}" class="btn btn-sm btn-success" title="Edit this">
 				                        <i class="fas fa-edit"></i>
 				                    </a>
-
+				                    @endcan
+									
+									@can('state_delete')
 				                    <a href="{{ url('admin/state/delete/'.$state->id) }}" class="btn btn-sm btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 				                        <i class="fas fa-trash"></i>
 				                    </a>
+				                    @endcan
 					            </td>
 					        </tr>
 					    @endforeach

@@ -8,19 +8,29 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    public function front_show($slug)
+    {
+        $page = Page::where('slug', $slug)->first();
+        return view('page')->with('page', $page);
+    }
+
+
     public function index()
     {
+        $this->authorize('page_access');
     	$pages = Page::orderBy('title', 'ASC')->get()->all();
     	return view('admin/pages/pages')->with('pages', $pages);
     }
 
     public function create()
     {
+        $this->authorize('page_create');
     	return view('admin/pages/page_create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('page_create');
     	$request->validate([
     		'title'			=>	'required|max:250|unique:pages,title',
     		'm_title'  		=>	'nullable|max:250',
@@ -38,7 +48,8 @@ class PageController extends Controller
     				'm_keywords'	=>	$request->post('m_keywords'),
     				'm_description'	=>	$request->post('m_description') ];
 
-    	if (isset($_FILES['feat_img']['tmp_name']) != '') {
+                    
+    	if ($_FILES['feat_img']['tmp_name'] != '') {
 			$image_lg = '/app/pages/'.$slug.'.jpg';
 		    $img = Image::make($_FILES['feat_img']['tmp_name']);
 		    $img->resize(1000, null, function ($constraint) { 
@@ -72,12 +83,14 @@ class PageController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('page_update');
     	$page = Page::find($id);
     	return view('admin/pages/page_edit')->with('page', $page);
     }
 
     public function update(Request $request)
     {
+        $this->authorize('page_update');
     	$request->validate([
     		'title'			=>	'required|max:250',
     		'm_title'  		=>	'nullable|max:250',
@@ -93,7 +106,8 @@ class PageController extends Controller
     				'slug'			=>	$slug,
     				'm_title'		=>	$request->post('m_title'),
     				'm_keywords'	=>	$request->post('m_keywords'),
-    				'm_description'	=>	$request->post('m_description') ];
+    				'm_description'	=>	$request->post('m_description'),
+                    'status'        =>  $request->post('status') ];
 
     	if ($_FILES['feat_img']['tmp_name'] != '') {
 			$image_lg = '/app/pages/'.$slug.'.jpg';
@@ -129,6 +143,7 @@ class PageController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('page_delete');
     	Page::find($id)->delete();
     	return redirect('admin/pages')->withErrors('DELETED !! Page is successfully deleted');
     }

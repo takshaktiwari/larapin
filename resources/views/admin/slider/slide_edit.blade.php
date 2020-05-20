@@ -37,7 +37,7 @@
                                 <img src="{{ url('storage'.$slide->image_sm) }}" alt="" class="img-thumbnail" style="max-height: 70px;">
                                 <div class="form-group ml-3">
                                     <label for="">Select Image <span class="text-danger">*</span></label>
-                                    <input type="file" name="slide" class="form-control" required>
+                                    <input type="file" name="slide" class="form-control">
                                 </div>
                             </div>
                             
@@ -65,6 +65,14 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">URL Link </label>
+                                <input type="text" name="url_link" class="form-control" placeholder="https://webpage.con/page-url" value="{{ $slide->url_link }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="">URL Text </label>
+                                <input type="text" name="url_text" class="form-control" placeholder="Click Here" value="{{ $slide->url_text }}" >
                             </div>
                             <input type="hidden" name="slide_id" value="{{ $slide->id }}">
                             <input type="submit" class="btn btn-primary px-5">

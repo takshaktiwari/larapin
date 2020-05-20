@@ -19,25 +19,30 @@ class CategoryController extends Controller
     	if ($validation->fails()) {
     		return $validation->errors();
     	}else{
-    		$query = Category::where('status', '1')->whereNull('parent');
+    		$query = Category::with(['discount_category' => function($query){
+                                    $query->where('expires_at', '>', date('Y-m-d H:i:s'));
+                                    $query->orWhere('expires_at', null);
+                                }])
+                                ->where('status', '1')->whereNull('parent');
 
     		if ($request->input('featured') != '') {
     			$query = $query->where('featured', $request->input('featured'));
     		}
     		if ($request->input('pincode') != '') {
     			$pincode = $request->input('pincode');
-    			$query = $query->whereHas('locations', function($query) use ($pincode){
+    			$query   = $query->whereHas('pincodes', function($query) use ($pincode){
 		    				$query->where('pincode', $pincode);
 		    			});
     		}
             if ($request->input('latest') == '1') {
                 $query->orderBy('id', 'DESC');
             }
-            if ($request->input('limit')) {
-                $query->limit($request->input('limit'));
-            }
 
-    		$categories = $query->get()->all();
+            if (empty($request->input('limit'))) {
+                $categories = $query->paginate('25');
+            }else{
+                $categories = $query->paginate($request->input('limit'));
+            }
 
     		return CategoryResource::collection($categories);
     	}
@@ -52,9 +57,13 @@ class CategoryController extends Controller
     	if ($validation->fails()) {
     		return $validation->errors();
     	}else{
-    		$category = Category::where('id', $request->input('category_id'))
-    								->where('status', '1')
-    								->first();
+    		$category = Category::with(['discount_category' => function($query){
+                                    $query->where('expires_at', '>', date('Y-m-d H:i:s'));
+                                    $query->orWhere('expires_at', null);
+                                }])
+                                ->where('id', $request->input('category_id'))
+								->where('status', '1')
+								->first();
 
     		return new CategoryResource($category);
     	}

@@ -90,10 +90,10 @@
     	<div class="row align-items-center">
     	    <div class="col-sm-6">
     	        <div class="page-title-box">
-    	            <h4 class="font-size-18">Permissions</h4>
+    	            <h4 class="font-size-18">Role Permissions</h4>
     	            <ol class="breadcrumb mb-0">
     	                <li class="breadcrumb-item">
-    	                	<a href="javascript: void(0);">Permissions</a>
+    	                	<a href="javascript: void(0);">Role Permissions</a>
     	                </li>
     	                <li class="breadcrumb-item active">Lists</li>
     	            </ol>
@@ -102,7 +102,9 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+    	        	@can('permission_create')
     	            <a href="{{ url('admin/permission/create') }}" class="btn btn-primary">+ Create New</a>
+    	            @endcan
     	        </div>
     	    </div>
     	</div>
@@ -125,12 +127,13 @@
 		        			        permission_items($permissions, $ex_permissions);
 		        			    @endphp
 		        			    
-		        			    
+		        			    @can('role_permission_update')
 		        			    <div class="clearfix"></div>
 		        			    <div class="text-center mt-4">
 		        			        <input type="hidden" name="role_id" value="{{ $role->id }}">
 		        			        <input type="submit" class="btn btn-success px-5" value="Update">
 		        			    </div>
+		        			    @endcan
 		        			</form>
 		        		</div>
 		        	</div>
@@ -200,10 +203,11 @@
                         </label>
                     </div>
                     
-
+					@can('permission_update')
                     <a href="{{ url('admin/permission/edit', $permission->id) }}"  class="btn btn-sm btn-success my-auto" title="Edit This" >
                         <i class="fas fa-edit"></i>
                     </a>
+                    @endcan
 
                 </li>
                 <?php

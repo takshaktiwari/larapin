@@ -75,6 +75,7 @@
 						            </td>
 						        </tr>
 						    @endforeach
+						    @can('discount_product_update')
 						    <tr>
 						    	<td colspan="4">
 						    		<div class="text-right py-1">
@@ -83,6 +84,7 @@
 						    		</div>
 						    	</td>
 						    </tr>
+						    @endcan
 					    </tbody>
 					</table>
 

@@ -31,7 +31,11 @@
 				    <tbody>
 						<tr>
 							<th>Product:</th>
-							<td>{{ $product_review->product->product_name }}</td>
+							<td>
+								<a href="{{ url('product/'.$product_review->product->slug) }}" target="_blank">
+									{{ $product_review->product->product_name }}
+								</a>
+							</td>
 						</tr>
 						<tr>
 							<th>User:</th>
@@ -61,10 +65,16 @@
 						<tr>
 							<th></th>
 							<td>
+								<a href="{{ url('/reviews/'.$product_review->product->slug.'#review_'.$product_review->id) }}" class="btn px-4 btn-info" title="View this" target="_blank">
+								    <i class="fas fa-eye"></i>
+								    On Page
+								</a>
+								@can('product_review_delete')
 								<a href="{{ url('admin/product_review/delete/'.$product_review->id) }}" class="btn px-4 btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 								    <i class="fas fa-trash mr-1"></i>
 								    Delete
 								</a>
+								@endcan
 							</td>
 						</tr>
 				    </tbody>

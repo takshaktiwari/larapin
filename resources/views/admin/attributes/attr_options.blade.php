@@ -21,7 +21,9 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+    	        	@can('attribute_option_create')
     	            <a href="{{ url('admin/attr_option/create') }}" class="btn btn-primary">+ Create New</a>
+    	            @endcan
     	        </div>
     	    </div>
     	</div>
@@ -45,13 +47,17 @@
 					            <td>{{ $attr_option->attr_option }}</td>
 					            <td>{{ $attr_option->attribute->attribute }}</td>
 					            <td class="font-size-20">
+					            	@can('attribute_option_update')
 				                    <a href="{{ url('admin/attr_option/edit/'.$attr_option->id) }}" class="btn btn-sm btn-success" title="Edit this">
 				                        <i class="fas fa-edit"></i>
 				                    </a>
-
+				                    @endcan
+									
+									@can('attribute_option_delete')
 				                    <a href="{{ url('admin/attr_option/delete/'.$attr_option->id) }}" class="btn btn-sm btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 				                        <i class="fas fa-trash"></i>
 				                    </a>
+				                    @endcan
 					            </td>
 					        </tr>
 					    @endforeach

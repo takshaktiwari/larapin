@@ -5,18 +5,23 @@
 		<div class="hero-slider owl-carousel-home">
 			
 			@foreach($slider as $slide)
+
 			<div class="hero-slide-item" style="background-image:url('{{ url('storage'.$slide->image_lg) }}');">
 				<div class="container">
 					<div class="hero-inner">
 						<h1 class="mb-20 light">
-							{{ $slide->caption }}
+							{{ $slide->title }}
 						</h1>
 						<p class="mb-40 mr-120 light">
 							{{ $slide->caption }}
 						</p>
-						<div class="hero-btn">
-							<a href="shop.html" class="theme-btn">Order Now</a>
-						</div>
+						@if(!empty($slide->url_text))
+							<div class="hero-btn">
+								<a href="{{ $slide->url_link }}" class="theme-btn">
+									{{ $slide->url_text }}
+								</a>
+							</div>
+						@endif
 					</div>
 				</div>
 			</div>
@@ -33,116 +38,57 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-10">
 					<div class="special-offer-inner special-offer-slider">
-
+						@foreach($in_offers as $product)
 						<div class="single-product">
 							<div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-								<div class="off">10%<span>off</span></div>
+								@if(!empty($product->discount->discount))
+									<div class="off">
+										{{ $product->discount->discount }}%
+										<span>off</span>
+									</div>
+								@endif
 								<div class="product-img-wrap">
-									<img src="{{ url('/') }}/assets/front/img/product/product1.png" alt="img">
+									<a href="{{ url('product/'.$product->slug) }}">
+										<img src="{{ url('storage'.$product->primary_img->image_md) }}" alt="{{ $product->product_name }}">
+									</a>
 								</div>
 								<div class="product-content">
 									<div class="offer-product-price">
-										<span class="discounted-price">$100.00</span>
-										<span class="actual-price has-discount">$120.00</span>
+										@if(!empty($product->discount->discount))
+											<span class="discounted-price">
+												{{ number_format($product->base_price, 2) }}
+											</span>
+										@endif
+										<span class="actual-price has-discount">
+											<i class="fas fa-rupee-sign"></i>
+											{{ number_format(product_sale_price($product), 2) }}
+										</span>
 									</div>
-									<p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
+									@if($product->reviews->count() > 0)
+										<div class="review">
+											<a href="{{ url('reviews/'.$product->slug) }}" class="btn btn-success btn-sm font-weight-bold px-2 py-0 mr-2">
+												{{ number_format($product->reviews->avg('rating'), 1) }} <i class="fas fa-star"></i>
+											</a>
+											<span class="small">
+												( {{ $product->reviews->count() }} Reviews )
+											</span>
+										</div>
+									@endif
+									<p>
+										<a href="{{ url('product/'.$product->slug) }}">
+											{{ $product->product_name }}
+										</a>
+									</p>
 								</div>
 								<div class="product-action">
-									<a href="#" class="add-to-btn">Add to Cart</a>
-									<div class="add-wishlist wish">
-										<i class="fa fa-heart-o"></i>
-									</div>
+									<a href="{{ url('cart/store?quantity=1&product_id='.$product->id) }}" class="add-to-btn">Add to Cart</a>
+									<a href="{{ url('user/wishlist/add/'.$product->id) }}" class="add-wishlist">
+										<i class="fas fa-heart"></i>
+									</a>
 								</div>
 							</div>
 						</div>
-
-						<div class="single-product">
-							<div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-								<div class="off">10%<span>off</span></div>
-								<div class="product-img-wrap">
-									<img src="{{ url('/') }}/assets/front/img/product/product2.png" alt="img">
-								</div>
-								<div class="product-content">
-									<div class="offer-product-price">
-										<span class="discounted-price">$100.00</span>
-										<span class="actual-price has-discount">$120.00</span>
-									</div>
-									<p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-								</div>
-								<div class="product-action">
-									<a href="#" class="add-to-btn">Add to Cart</a>
-									<div class="add-wishlist">
-										<i class="fa fa-heart-o"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="single-product">
-							<div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-								<div class="off">10%<span>off</span></div>
-								<div class="product-img-wrap">
-									<img src="{{ url('/') }}/assets/front/img/product/product3.png" alt="img">
-								</div>
-								<div class="product-content">
-									<div class="offer-product-price">
-										<span class="discounted-price">$100.00</span>
-										<span class="actual-price has-discount">$120.00</span>
-									</div>
-									<p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-								</div>
-								<div class="product-action">
-									<a href="#" class="add-to-btn">Add to Cart</a>
-									<div class="add-wishlist">
-										<i class="fa fa-heart-o"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="single-product">
-							<div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-								<div class="off">10%<span>off</span></div>
-								<div class="product-img-wrap">
-									<img src="{{ url('/') }}/assets/front/img/product/product4.png" alt="img">
-								</div>
-								<div class="product-content">
-									<div class="offer-product-price">
-										<span class="discounted-price">$100.00</span>
-										<span class="actual-price has-discount">$120.00</span>
-									</div>
-									<p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-								</div>
-								<div class="product-action">
-									<a href="#" class="add-to-btn">Add to Cart</a>
-									<div class="add-wishlist">
-										<i class="fa fa-heart-o"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="single-product">
-							<div class="special-offer-product bg-white m-25 p-25 b1 br-5">
-								<div class="off">10%<span>off</span></div>
-								<div class="product-img-wrap">
-									<img src="{{ url('/') }}/assets/front/img/product/product3.png" alt="img">
-								</div>
-								<div class="product-content">
-									<div class="offer-product-price">
-										<span class="discounted-price">$100.00</span>
-										<span class="actual-price has-discount">$120.00</span>
-									</div>
-									<p>Chashi Aromatic Chinigura Rice (1 Bag 5 kg)</p>
-								</div>
-								<div class="product-action">
-									<a href="#" class="add-to-btn">Add to Cart</a>
-									<div class="add-wishlist">
-										<i class="fa fa-heart-o"></i>
-									</div>
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 			</div>
@@ -191,7 +137,13 @@
 			<div class="row">
 				@foreach(get_categories() as $category)
 				<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-30">
-					<a href="shop.html" class="categori-item bg-white br-5">
+					<a href="{{ url('shop?category='.$category->slug) }}" class="categori-item bg-white br-5">
+						@if(!empty($category->discount_category->discount))
+							<div class="item-off">
+								{{ $category->discount_category->discount }}%
+								<span>off</span>
+							</div>
+						@endif
 						<div class="categori-img d-flex align-items-center justify-content-center">
 							<img src="{{ url('storage'.$category->image_sm) }}" alt="img">
 						</div>
@@ -260,7 +212,7 @@
 					<div class="product">
 						<div class="product-img-wrap">
 							<a href="{{ url('product/'.$product->slug) }}">
-								<img src="{{ url('storage'.$product->primary_img->image_sm) }}" alt="{{ $product->product_name }}">
+								<img src="{{ url('storage'.$product->primary_img->image_md) }}" alt="{{ $product->product_name }}">
 							</a>
 						</div>
 						<div class="product-content-wrap">
@@ -271,16 +223,16 @@
 									</a>
 								</p>
 								<div class="review">
-									<span class="btn btn-success btn-sm font-weight-bold px-2 py-0 mr-2">
+									<a href="{{ url('reviews/'.$product->slug) }}" class="btn btn-success btn-sm font-weight-bold px-2 py-0 mr-2">
 										4.5 <i class="fas fa-star"></i>
-									</span>
+									</a>
 									<span class="small">
 										( {{ $product->reviews->count() }} Reviews )
 									</span>
 								</div>
 							</div>
 							<div class="product-action">
-								<a href="#" class="add-to-btn small-btn">
+								<a href="{{ url('cart/store?quantity=1&product_id='.$product->id) }}" class="add-to-btn small-btn">
 									<i class="flaticon-shopping-cart"></i>
 									<span>Add to Cart</span>
 									<h5 class="product-price">
@@ -288,16 +240,15 @@
 										{{ number_format(product_sale_price($product), 2) }}
 										
 										@if(!empty($product->discount->discount))
-											<del class="small text-secondary ml-1">
-												<i class="fas fa-rupee-sign"></i>
+											<del class="small text-secondary absolute ml-1 mt-1">
 												{{ number_format($product->base_price, 2) }}
 											</del>
 										@endif
 									</h5>
 								</a>
-								<div class="add-wishlist">
+								<a href="{{ url('user/wishlist/add/'.$product->id) }}" class="add-wishlist index-9">
 									<i class="fas fa-heart"></i>
-								</div>
+								</a>
 							</div>
 						</div>
 					</div>
@@ -309,96 +260,6 @@
 					<a href="{{ url('shop') }}" class="theme-btn br-30">
 						Browse More
 					</a>
-				</div>
-
-				<div class="modal product-modal fade" id="quick-view" tabindex="-1" role="dialog" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body p-35 pt-0">
-								<div class="product-quick-view">
-									<div class="container">
-										<div class="row">
-											<div class="col-lg-6">
-												<div class="product-preview-wrap">
-													<div class="tab-content bg-white p-50 b1 br-5">
-														<div class="tab-pane" id="preview1">
-															<img src="{{ url('/') }}/assets/front/img/product/product23.png" alt="Product Preview Image" data-magnify-src="{{ url('/') }}/assets/front/img/product/product23.png" />
-														</div>
-														<div class="tab-pane active" id="preview2">
-															<img src="{{ url('/') }}/assets/front/img/product/onion3.png" alt="Product Preview Image" data-magnify-src="{{ url('/') }}/assets/front/img/product/onion3.png" />
-														</div>
-														<div class="tab-pane" id="preview3">
-															<img src="{{ url('/') }}/assets/front/img/product/product23.png" alt="Product Preview Image" data-magnify-src="{{ url('/') }}/assets/front/img/product/product23.png" />
-														</div>
-														<div class="tab-pane" id="preview4">
-															<img src="{{ url('/') }}/assets/front/img/product/onion2.png" alt="Product Preview Image" data-magnify-src="{{ url('/') }}/assets/front/img/product/onion2.png" />
-														</div>
-													</div>
-													<ul class="nav nav-tabs flex-nowrap align-content-between mt-30">
-														<li>
-															<a data-toggle="tab" href="#preview1">
-																<img src="{{ url('/') }}/assets/front/img/product/product23.png" alt="Product Thumbnail Image" />
-															</a>
-														</li>
-														<li>
-															<a class="active" data-toggle="tab" href="#preview2">
-																<img src="{{ url('/') }}/assets/front/img/product/onion3.png" alt="Product Thumbnail Image" />
-															</a>
-														</li>
-														<li>
-															<a data-toggle="tab" href="#preview3">
-																<img src="{{ url('/') }}/assets/front/img/product/product23.png" alt="Product Thumbnail Image" />
-															</a>
-														</li>
-														<li>
-															<a data-toggle="tab" href="#preview4">
-																<img src="{{ url('/') }}/assets/front/img/product/onion2.png" alt="Product Thumbnail Image" />
-															</a>
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div class="col-lg-6">
-												<div class="product-details text-left bg-white ml-25 px-50 py-45 b1 br-5">
-													<h3 class="mb-25 rmt-25">Fresh Onion 1kg</h3>
-													<div class="rating mb-25">
-														<div class="star mr-15">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-														</div>
-														<div class="text">(13 Review)</div>
-													</div>
-													<p>Sed egestas, ante et vulputate volutpat, eropede semper est, vitluctus metus libero eu augue. Morbi purus libero, faucibus adipiscing.</p>
-													<p>commodo quis, gravida id, est. Sed lectus. Praest elemhendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat.lacus a ultrices.</p>
-													<h6>Availability: <span>In Stock</span></h6>
-													<h4 class="price">$120.00</h4>
-													<div class="product-spinner mt-20">
-														<div class="number-input b1">
-															<button class="minus"></button>
-															<input min="1" name="quantity" value="2" type="number">
-															<button class="plus"></button>
-														</div>
-														<a href="#" class="theme-btn br-30 ml-20">Add to Cart</a>
-														<div class="add-wishlist">
-															<i class="fa fa-heart-o"></i>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 
 			</div>

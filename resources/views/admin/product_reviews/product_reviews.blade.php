@@ -31,7 +31,6 @@
 					    </tr>
 				    </thead>
 
-
 				    <tbody>
 					    @foreach($product_reviews as $key => $review)
 					        <tr>
@@ -49,13 +48,17 @@
 					            	</span>
 					            </td>
 					            <td class="font-size-20" style="min-width: 100px;">
+					            	@can('product_review_show')
 				                    <a href="{{ url('admin/product_review/show/'.$review->id) }}" class="btn btn-sm btn-info" title="View this">
-				                        <i class="fas fa-eye"></i>
+				                        <i class="fas fa-info-circle"></i>
 				                    </a>
-
+				                    @endcan
+									
+									@can('product_review_delete')
 				                    <a href="{{ url('admin/product_review/delete/'.$review->id) }}" class="btn btn-sm btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 				                        <i class="fas fa-trash"></i>
 				                    </a>
+				                    @endcan
 					            </td>
 					        </tr>
 					    @endforeach

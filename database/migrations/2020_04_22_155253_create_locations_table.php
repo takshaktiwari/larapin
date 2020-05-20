@@ -16,7 +16,8 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('location');
-            $table->string('pincode', 10);
+            $table->integer('pincode_id');
+            $table->integer('district_id');
             $table->integer('state_id');
             $table->integer('country_id');
             $table->string('slug');

@@ -11,16 +11,56 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
 Auth::routes();
 
-Route::get('categories', 'CategoryController@index');
+Route::get('/', 'HomeController@index');
+Route::get('page/{slug}', 'PageController@front_show');
+
+Route::get('categories', 'CategoryController@front_index');
 Route::get('shop', 'ShopController@index');
 Route::get('product/{slug}', 'ShopController@product');
+Route::get('reviews/{slug}', 'ProductReviewController@front_reviews');
 
-Route::get('user/home', 'UserController@home');
+Route::get('cart', 'CartController@cart');
+Route::get('cart/store', 'CartController@store');
+Route::post('cart/update', 'CartController@update');
+Route::get('cart/remove/{id}', 'CartController@remove');
+Route::post('cart/coupon_apply', 'CartController@coupon_apply');
 
-Route::middleware(['auth'])->prefix('admin')->group(function(){
+Route::get('checkout', 'CheckoutController@checkout');
+Route::post('checkout/do', 'CheckoutController@checkout_do');
+Route::get('order/confirmation/{order_id}', 'OrderController@confirmation');
+
+Route::middleware(['auth'])->group(function(){
+	Route::post('review/create', 'ProductReviewController@front_store');
+});
+
+Route::middleware(['auth'])->prefix('user')->group(function(){
+	Route::get('home', 'UserController@home');
+	Route::get('orders', 'OrderController@front_orders');
+	Route::get('order/{id}', 'OrderController@front_order_detail');
+	Route::post('order/cancel', 'OrderHistoryController@front_order_cancel');
+
+	Route::get('wishlist', 'WishlistController@wishlist');
+	Route::get('wishlist/add/{product_id}', 'WishlistController@add');
+	Route::get('wishlist/delete/{id}', 'WishlistController@destroy');
+	
+	Route::get('addresses', 'UserAddressController@front_addresses');
+	Route::get('address/create', 'UserAddressController@front_create');
+	Route::post('address/create', 'UserAddressController@store');
+	Route::get('address/edit/{addr_id}', 'UserAddressController@front_edit');
+	Route::post('address/update', 'UserAddressController@update');
+	Route::get('address/delete/{addr_id}', 'UserAddressController@destroy');
+
+	Route::get('profile', 'UserController@profile');
+	Route::post('profile/update', 'UserController@profile_update');
+
+	Route::get('change_password', 'UserController@change_password');
+	Route::post('change_password', 'UserController@change_password_do');
+});
+
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 	Route::get('home', 'AdminController@index');
 	Route::get('change_password', 'AdminController@change_password');
 	Route::post('change_password', 'AdminController@change_password_do');
@@ -29,10 +69,18 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('category/create', 'CategoryController@create');
 	Route::post('category/create', 'CategoryController@store');
 	Route::get('category/edit/{id}', 'CategoryController@edit');
-	Route::get('category/locations/{category_id}', 'CategoryController@locations');
-	Route::post('category/locations/update', 'CategoryController@locations_update');
+	
 	Route::get('category/attributes/{category_id}', 'CategoryController@attributes');
 	Route::post('category/attributes/update', 'CategoryController@attributes_update');
+
+	Route::get('category/{category_id}/countries', 'CategoryController@countries');
+	Route::post('category/countries/update', 'CategoryController@countries_update');
+	Route::get('category/{category_id}/states', 'CategoryController@states');
+	Route::post('category/states/update', 'CategoryController@states_update');
+	Route::get('category/{category_id}/districts', 'CategoryController@districts');
+	Route::post('category/districts/update', 'CategoryController@districts_update');
+	Route::get('category/{category_id}/pincodes', 'CategoryController@pincodes');
+	Route::post('category/pincodes/update', 'CategoryController@pincodes_update');
 
 	Route::get('attributes', 'AttributeController@index');
 	Route::get('attribute/create', 'AttributeController@create');
@@ -68,6 +116,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::post('product/images/update', 'ProductImageController@update');
 	Route::get('product/images/delete/{img_id}', 'ProductImageController@destroy');
 	Route::get('product/images/primary/{img_id}', 'ProductImageController@primary');
+	Route::get('product/delete/{id}', 'ProductController@destroy');
+
 
 	Route::get('product_reviews', 'ProductReviewController@index');
 	Route::get('product_review/show/{id}', 'ProductReviewController@show');
@@ -86,6 +136,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('coupon/delete/{id}', 'CouponController@destroy');
 	Route::get('coupon/show/{id}', 'CouponController@show');
 
+	Route::get('orders', 'OrderController@orders');
+	Route::get('order/detail/{id}', 'OrderController@detail');
+	Route::get('order/delete/{id}', 'OrderController@destroy');
+	Route::post('order/history/create', 'OrderHistoryController@store');
+
 	Route::get('countries', 'CountryController@index');
 	Route::get('country/create', 'CountryController@create');
 	Route::post('country/create', 'CountryController@store');
@@ -100,6 +155,20 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::post('state/update', 'StateController@update');
 	Route::get('state/delete/{id}', 'StateController@destroy');
 
+	Route::get('districts', 'DistrictController@index');
+	Route::get('district/create', 'DistrictController@create');
+	Route::post('district/create', 'DistrictController@store');
+	Route::get('district/edit/{id}', 'DistrictController@edit');
+	Route::post('district/update', 'DistrictController@update');
+	Route::get('district/delete/{id}', 'DistrictController@destroy');
+
+	Route::get('pincodes', 'PincodeController@index');
+	Route::get('pincode/create', 'PincodeController@create');
+	Route::post('pincode/create', 'PincodeController@store');
+	Route::get('pincode/edit/{id}', 'PincodeController@edit');
+	Route::post('pincode/update', 'PincodeController@update');
+	Route::get('pincode/delete/{id}', 'PincodeController@destroy');
+
 	Route::get('locations', 'LocationController@index');
 	Route::get('location/create', 'LocationController@create');
 	Route::post('location/create', 'LocationController@store');
@@ -113,6 +182,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('user/edit/{user_id}', 'UserController@edit');
 	Route::get('user/delete/{user_id}', 'UserController@destroy');
 	Route::post('user/update', 'UserController@update');
+	Route::get('user/generate_api_token/{user_id}', 'UserController@generate_api_token');
 
 	Route::get('user/{user_id}/addresses', 'UserAddressController@index');
 	Route::get('user/{user_id}/address/create', 'UserAddressController@create');
@@ -120,6 +190,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('user/address/primary/{addr_id}', 'UserAddressController@primary_addr');
 	Route::get('user/address/edit/{addr_id}', 'UserAddressController@edit');
 	Route::post('user/address/update', 'UserAddressController@update');
+	Route::get('user/address/delete/{addr_id}', 'UserAddressController@destroy');
 
 	Route::get('roles', 'RoleController@index');
 	Route::get('role/create', 'RoleController@create');
@@ -150,8 +221,26 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 	Route::get('slide/edit/{id}', 'SliderController@edit');
 	Route::post('slide/update', 'SliderController@update');
 	Route::get('slide/delete/{id}', 'SliderController@destroy');
+
+	Route::get('shipping_charge', 'ShippingChargeController@index');
+	Route::post('shipping_charge/update', 'ShippingChargeController@update');
+	Route::post('shipping_type/update', 'ShippingChargeController@shipping_type_update');
+	Route::post('shipping_global/update', 'ShippingChargeController@shipping_global_update');
+	Route::get('shipping_global/delete/{id}', 'ShippingChargeController@shipping_global_destroy');
+
+	Route::get('shipping_slots', 'ShippingSlotController@index');
+	Route::get('shipping_slot/create', 'ShippingSlotController@create');
+	Route::post('shipping_slot/create', 'ShippingSlotController@store');
+	Route::get('shipping_slot/edit/{id}', 'ShippingSlotController@edit');
+	Route::post('shipping_slot/update', 'ShippingSlotController@update');
+	Route::get('shipping_slot/delete/{id}', 'ShippingSlotController@destroy');
+	
+	Route::get('settings', 'SettingController@index');
+	Route::post('settings/update', 'SettingController@update');
 });
 
 Route::post('ajax/get_country_states', 'AjaxController@get_country_states');
-Route::post('ajax/get_state_locations', 'AjaxController@get_state_locations');
-Route::post('ajax/get_location_pincode', 'AjaxController@get_location_pincode');
+Route::post('ajax/get_state_districts', 'AjaxController@get_state_districts');
+Route::post('ajax/get_district_pincodes', 'AjaxController@get_district_pincodes');
+Route::post('ajax/get_pincode_locations', 'AjaxController@get_pincode_locations');
+Route::get('ajax/product_add_attr_price', 'AjaxController@product_add_attr_price');

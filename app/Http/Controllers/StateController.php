@@ -10,18 +10,21 @@ class StateController extends Controller
 {
     public function index($value='')
     {
+        $this->authorize('state_access');
     	$states = State::with('country')->paginate(25);
     	return view('admin/states/states')->with('states', $states);
     }
 
     public function create()
     {
+        $this->authorize('state_create');
     	$countries = Country::orderBy('country', 'ASC')->get()->all();
     	return view('admin/states/state_create')->with('countries', $countries);
     }
 
     public function store(Request $request)
     {
+        $this->authorize('state_create');
     	$request->validate([
     			'country_id' => 'required|numeric', 
     			'state' => 'required|unique:states'
@@ -41,6 +44,7 @@ class StateController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('state_update');
     	$state = State::with('country')->find($id);
     	$countries = Country::orderBy('country', 'ASC')->get()->all();
     	return view('admin/states/state_edit')->with('state', $state)
@@ -49,6 +53,7 @@ class StateController extends Controller
 
     public function update(Request $request)
     {
+        $this->authorize('state_update');
     	$request->validate([
     		'country_id'	=>	'required',
     		'state'			=>	'required'
@@ -70,6 +75,7 @@ class StateController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('state_delete');
     	State::where('id', $id)->delete();
     	return redirect('admin/states')
     				->withErrors('DELETED !! State is successfully deleted');

@@ -10,12 +10,14 @@ class ProductDetailController extends Controller
 {
     public function edit($id)
     {
+        $this->authorize('product_update_details');
     	$product = Product::find($id);
     	return view('admin/products/product_details')->with('product', $product);
     }
 
     public function update(Request $request)
     {
+        $this->authorize('product_update_details');
     	$request->validate([
     		'ship_charge'	=>	'nullable',
     		'ship_time'		=>	'nullable|numeric',

@@ -24,6 +24,7 @@ class CreatePagesTable extends Migration
             $table->string('m_title', 255)->nullable();
             $table->string('m_keywords', 255)->nullable();
             $table->string('m_description', 255)->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
     }

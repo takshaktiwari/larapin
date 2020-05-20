@@ -81,32 +81,28 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="">District <span class="text-danger">*</span></label>
+                                    <select name="district_id" id="district_id" class="form-control" required>
+                                        <option value="">-- Select District --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Pincode <span class="text-danger">*</span></label>
+                                    <select name="pincode_id" id="pincode_id" class="form-control" required>
+                                        <option value="">-- Select Pincode --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="">Location <span class="text-danger">*</span></label>
                                     <select name="location_id" id="location_id" class="form-control" required>
                                         <option value="">-- Select --</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Pin-Code <span class="text-danger">*</span></label>
-                                    <input type="text" name="pincode" id="pincode" required class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Shipping / Billing Address <span class="text-danger">*</span></label>
-                            <select name="shipping_billing" class="form-control" required>
-                                <option value="1" {{ selected('1', old('shipping_billing')) }} >
-                                    Shipping Address
-                                </option>
-                                <option value="2" {{ selected('2', old('shipping_billing')) }} >
-                                    Billing Address
-                                </option>
-                                <option value="3" {{ selected('3', old('shipping_billing')) }} >
-                                    Both Shipping & Billing Address
-                                </option>
-                            </select>
                         </div>
                         
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
@@ -151,14 +147,14 @@
 
                 if(state_id != ''){
                     $.ajax({
-                        url: '{{ url('ajax/get_state_locations') }}',
+                        url: '{{ url('ajax/get_state_districts') }}',
                         type: 'POST',
                         data: {state_id: state_id ,_token: '{{csrf_token()}}'},
                         success: function(result){
-                            $("#location_id").html('<option value="">-- Select Location --</option>');
+                            $("#district_id").html('<option value="">-- Select District --</option>');
                             if(result != ''){
                                 $.each(result, function(index, val) {
-                                    $("#location_id").append('<option value="'+val.id+'">'+val.location+'</option>');
+                                    $("#district_id").append('<option value="'+val.id+'">'+val.district+'</option>');
                                 });
                             }
                         }
@@ -167,18 +163,41 @@
                 }
             });
 
-            $("#location_id").change(function(event) {
-                var location_id = $(this).val();
+            $("#district_id").change(function(event) {
+                var district_id = $(this).val();
 
-                if(location_id != ''){
+                if(district_id != ''){
                     $.ajax({
-                        url: '{{ url('ajax/get_location_pincode') }}',
+                        url: '{{ url('ajax/get_district_pincodes') }}',
                         type: 'POST',
-                        data: {location_id: location_id ,_token: '{{csrf_token()}}'},
+                        data: {district_id: district_id ,_token: '{{csrf_token()}}'},
                         success: function(result){
-                            
+                            $("#pincode_id").html('<option value="">-- Select Pincode --</option>');
                             if(result != ''){
-                                $("#pincode").val(result.pincode);
+                                $.each(result, function(index, val) {
+                                    $("#pincode_id").append('<option value="'+val.id+'">'+val.pincode+'</option>');
+                                });
+                            }
+                        }
+                    });
+                    
+                }
+            });
+
+            $("#pincode_id").change(function(event) {
+                var pincode_id = $(this).val();
+
+                if(pincode_id != ''){
+                    $.ajax({
+                        url: '{{ url('ajax/get_pincode_locations') }}',
+                        type: 'POST',
+                        data: {pincode_id: pincode_id ,_token: '{{csrf_token()}}'},
+                        success: function(result){
+                            $("#location_id").html('<option value="">-- Select Location --</option>');
+                            if(result != ''){
+                                $.each(result, function(index, val) {
+                                    $("#location_id").append('<option value="'+val.id+'">'+val.location+'</option>');
+                                });
                             }
                         }
                     });

@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CountryResource;
-use App\Http\Resources\StateResource;
 
 class LocationResource extends JsonResource
 {
@@ -17,11 +15,13 @@ class LocationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'        =>  $this->id,
-            'location'  =>  $this->location,
-            'pincode'   =>  $this->pincode,
-            'slug'      =>  $this->slug,
-            'state'     =>  new StateResource($this->state)
+            'id'            =>  $this->id,
+            'location'      =>  $this->location,
+            'slug'          =>  $this->slug,
+            'state_id'      =>  $this->state_id,
+            'pincode_id'    =>  $this->pincode_id,
+            'district_id'   =>  $this->district_id,
+            'country_id'    =>  $this->country_id,
         ];
     }
 }

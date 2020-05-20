@@ -19,6 +19,11 @@ class UpdateUsersTable extends Migration
                                             ->nullable()
                                             ->default(null);
             $table->integer('role_id')->after('api_token')->nullable();
+            $table->string('mobile', 20)->after('role_id')->nullable();
+            $table->string('facebook_id')->after('mobile')->nullable();
+            $table->string('google_id')->after('facebook_id')->nullable();
+            $table->string('twitter_id')->after('google_id')->nullable();
+            $table->string('user_img', 255)->after('twitter_id')->nullable();
         });
     }
 

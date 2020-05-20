@@ -11,6 +11,7 @@ class DiscountCategoryController extends Controller
 {
     public function index()
     {
+        $this->authorize('discount_category_access');
     	$categories = Category::whereNull('parent')->orderBy('category', 'ASC')->paginate(25);
     	return view('admin/discounts/discount_category')
     					->with('categories', $categories);
@@ -18,6 +19,7 @@ class DiscountCategoryController extends Controller
 
     public function update(Request $request)
     {
+        $this->authorize('discount_category_update');
     	foreach ($request->post('categories') as $category) {
     		if (!empty($category['id']) && 
                 $category['discount'] != '' && 

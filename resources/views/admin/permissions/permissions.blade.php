@@ -35,7 +35,9 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+                    @can('permission_create')
     	            <a href="{{ url('admin/permission/create') }}" class="btn btn-primary">+ Create New</a>
+                    @endcan
     	        </div>
     	    </div>
     	</div>
@@ -81,10 +83,12 @@
                             </div>
                         </div>
                     </div>
-
+                    
+                    @can('permission_update')
                     <a href="{{ url('admin/permission/edit', $permission->id) }}"  class="btn btn-sm btn-success my-auto" title="Edit This" >
                         <i class="fas fa-edit"></i>
                     </a>
+                    @endcan
 
                 </li>
                 <?php

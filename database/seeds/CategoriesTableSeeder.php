@@ -35,7 +35,7 @@ class CategoriesTableSeeder extends Seeder
 
     	for($i=1; $i<=10; $i++){
 
-	    	$image = '/dump_products/category/category-'.rand(1, 22).'.jpg';
+	    	$image = '/dump_products/category/category-'.rand(1, 20).'.jpg';
 	    	$name = $faker->company;
 
 	    	$slug = str_replace(' ', '-', strtolower(trim($name)));
@@ -62,7 +62,7 @@ class CategoriesTableSeeder extends Seeder
             $category->attributes()->sync($attributes);
 
 	        for($j=1; $j<=rand(4,6); $j++){
-        		$image = '/dump_images/image-'.rand(1, 13).'.jpg';
+        		$image = '/dump_products/category/category-'.rand(1, 20).'.jpg';
         		$name = $faker->company;
 
         		$slug = str_replace(' ', '-', strtolower(trim($name)));

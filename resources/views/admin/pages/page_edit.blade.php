@@ -60,6 +60,14 @@
 					    <textarea name="content" rows="10" class="form-control text-editor">{{ $page->content }}</textarea>
 					</div>
 					<div class="form-group">
+						<label for="">Status <span class="text-danger">*</span></label>
+						<select name="status" class="form-control">
+							<option value="1">Active</option>
+							<option value="0">In-Active</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
 					    <label for="">Meta Title </label>
 					    <textarea name="m_title" rows="2" class="form-control" maxlength="250">{{ $page->m_title }}</textarea>
 					</div>

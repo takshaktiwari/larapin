@@ -18,7 +18,9 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+    	        	@can('role_create')
     	            <a href="{{ url('admin/role/create') }}" class="btn btn-primary">+ Create New</a>
+    	            @endcan
     	        </div>
     	    </div>
     	</div>
@@ -44,13 +46,17 @@
 					                {{ $role->role_name }}
 					            </td>
 					            <td class="font-size-20">
+					            	@can('role_update')
 				                    <a href="{{ url('admin/role/edit/'.$role->id) }}" class="btn btn-sm btn-success" title="Edit this">
 				                        <i class="fas fa-edit"></i>
 				                    </a>
-
+				                    @endcan
+									
+									@can('role_delete')
 				                    <a href="{{ url('admin/role/delete/'.$role->id) }}" class="btn btn-sm btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 				                        <i class="fas fa-trash"></i>
 				                    </a>
+				                    @endcan
 					            </td>
 					        </tr>
 					    @endforeach

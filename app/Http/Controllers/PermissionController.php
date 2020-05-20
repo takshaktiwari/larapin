@@ -9,6 +9,7 @@ class PermissionController extends Controller
 {
     public function index()
     {
+        $this->authorize('permission_access');
     	$permissions = Permission::with('children')
                                     ->whereNull('parent')
                                     ->orderBy('name', 'ASC')
@@ -21,6 +22,7 @@ class PermissionController extends Controller
 
     public function create()
     {
+        $this->authorize('permission_create');
 		$permissions = Permission::with('children')
 	                                ->whereNull('parent')
 	                                ->orderBy('name', 'ASC')
@@ -30,6 +32,7 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('permission_create');
     	$data = $request->all();
 
     	if (isset($data['resource']) && $data['resource'] == '1') {
@@ -67,6 +70,7 @@ class PermissionController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('permission_update');
         $permission = Permission::find($id);
         $all_permissions = Permission::whereNotIn('id', [$id])
                                     ->orderBy('title', 'ASC')
@@ -78,6 +82,7 @@ class PermissionController extends Controller
 
     public function update(Request $request)
     {
+        $this->authorize('permission_update');
         $data = $request->all();
 
         Permission::where('name', $data['name'])

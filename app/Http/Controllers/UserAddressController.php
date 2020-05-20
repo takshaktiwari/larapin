@@ -9,27 +9,61 @@ use Illuminate\Http\Request;
 
 class UserAddressController extends Controller
 {
+    public function front_addresses($value='')
+    {
+        return view('user/addresses');
+    }
+
+    public function front_create()
+    {
+        $countries = \App\Country::orderBy('country', 'ASC')->get()->all();
+        return view('user/address_create')->with('countries', $countries);
+    }
+
+    public function front_edit($addr_id)
+    {
+        $address = User_address::find($addr_id);
+        $countries = \App\Country::orderBy('country', 'ASC')->get()->all();
+
+        $states = \App\State::where('country_id', 'like', $address->country_id)
+                            ->orderBy('state', 'ASC')->get()->all();
+
+        $districts = \App\District::where('state_id', $address->state_id)
+                            ->orderBy('district', 'ASC')->get()->all();
+
+        $pincodes = \App\Pincode::where('district_id', $address->district_id)
+                            ->orderBy('pincode', 'ASC')->get()->all();
+
+        $locations = \App\Location::where('pincode_id', $address->pincode_id)
+                            ->orderBy('location', 'ASC')->get()->all();
+
+        return view('user/address_edit')->with('address', $address)
+                                        ->with('countries', $countries)
+                                        ->with('states', $states)
+                                        ->with('districts', $districts)
+                                        ->with('pincodes', $pincodes)
+                                        ->with('locations', $locations);
+    }
+
+
 
     public function index($user_id='')
     {
+        $this->authorize('user_address_access');
     	if (empty($user_id)) {
     		$user_id = Auth::user()->id;
     	}
 
     	$user = User::find($user_id);
-    	$shipping_addrs = User_address::where('user_id', $user_id)
-    									->where('shipping_billing', '1')
-    									->get()->all();
-    	$billing_addrs = User_address::where('user_id', $user_id)
-    									->where('shipping_billing', '2')
-    									->get()->all();
+    	$addresses = User_address::where('user_id', $user_id)
+    								->get()->all();
     	return view('admin/users/addresses')->with('user', $user)
-    										->with('shipping_addrs', $shipping_addrs)
-    										->with('billing_addrs', $billing_addrs);
+    										->with('addresses', $addresses);
     }
 
     public function create($user_id='')
     {
+        $this->authorize('user_address_create');
     	if (empty($user_id)) {
     		$user_id = Auth::user()->id;
     	}
@@ -50,8 +84,9 @@ class UserAddressController extends Controller
     		'line1'			=>	'required|max:255',
     		'line2'			=>	'nullable|max:255',
     		'location_id'	=>	'required|numeric',
-    		'pincode'		=>	'required|numeric|digits:6',
-    		'state_id'		=>	'required|numeric',
+    		'pincode_id'	=>	'required|numeric',
+    		'district_id'	=>	'required|numeric',
+            'state_id'      =>  'required|numeric',
     		'country_id'	=>	'required|numeric',
     	]);
     	
@@ -61,40 +96,22 @@ class UserAddressController extends Controller
     	}
     	
     	$data = $request->all();
-    	$addrs = [];
-    	if ($data['shipping_billing'] == '1') {
-    		$addrs = ['1'];
-    		User_address::where('user_id', $user_id)
-    					->where('shipping_billing', '1')
-    					->update(['default_addr' => false]);
-    	}elseif ($data['shipping_billing'] == '2') {
-    		$addrs = ['2'];
-    		User_address::where('user_id', $user_id)
-    					->where('shipping_billing', '2')
-    					->update(['default_addr' => false]);
-    	}elseif ($data['shipping_billing'] == '3') {
-    		User_address::where('user_id', $user_id)
-    					->update(['default_addr' => false]);
-    		$addrs = ['1','2'];
-    	}
-
-    	foreach ($addrs as $shipping_billing) {
-    		User_address::create([
-    			'user_id'		=>	$user_id,
-    			'name'			=>	$data['name'],
-    			'email'			=>	$data['email'],
-    			'mobile'		=>	$data['mobile'],
-    			'landmark'		=>	$data['landmark'],
-    			'line1'			=>	$data['line1'],
-    			'line2'			=>	$data['line2'],
-    			'location_id'	=>	$data['location_id'],
-    			'pincode'		=>	$data['pincode'],
-    			'state_id'		=>	$data['state_id'],
-    			'country_id'	=>	$data['country_id'],
-    			'shipping_billing'	=>	$shipping_billing,
-    			'default_addr'		=>	true
-    		]);
-    	}
+		User_address::create([
+			'user_id'		=>	$user_id,
+			'name'			=>	$data['name'],
+			'email'			=>	$data['email'],
+			'mobile'		=>	$data['mobile'],
+			'landmark'		=>	$data['landmark'],
+			'line1'			=>	$data['line1'],
+			'line2'			=>	$data['line2'],
+			'location_id'	=>	$data['location_id'],
+			'pincode_id'	=>	$data['pincode_id'],
+            'district_id'   =>  $data['district_id'],
+			'state_id'		=>	$data['state_id'],
+			'country_id'	=>	$data['country_id'],
+			'default_addr'		=>	true
+		]);
+    	
 
     	return redirect()->back()
     				->withErrors('CREATED !! Addresses are successfully created');
@@ -105,7 +122,6 @@ class UserAddressController extends Controller
     	$address = User_address::find($addr_id);
 
     	User_address::where('user_id', $address->user_id)
-    				->where('shipping_billing', $address->shipping_billing)
     				->update(['default_addr' => false]);
 
     	$address->update(['default_addr' => true]);
@@ -113,29 +129,29 @@ class UserAddressController extends Controller
     				->withErrors('SUCCESS !! Address is successfully set to default');
     }
 
-    public function destroy($addr_id)
-    {
-    	$address = User_address::find($addr_id);
-    	$address->delete();
-
-    	return redirect()->back()
-    				->withErrors('SUCCESS !! Address is successfully set to default');
-    }
-
     public function edit($addr_id)
     {
+        $this->authorize('user_address_edit');
     	$address = User_address::first();
     	$countries = \App\Country::orderBy('country', 'ASC')->get()->all();
 
     	$states = \App\State::where('country_id', 'like', $address->country_id)
     						->orderBy('state', 'ASC')->get()->all();
 
-    	$locations = \App\Location::where('state_id', 'like', $address->state_id)
+        $districts = \App\District::where('state_id', $address->state_id)
+                            ->orderBy('district', 'ASC')->get()->all();
+
+        $pincodes = \App\Pincode::where('district_id', $address->district_id)
+                            ->orderBy('pincode', 'ASC')->get()->all();
+
+    	$locations = \App\Location::where('pincode_id', $address->pincode_id)
     						->orderBy('location', 'ASC')->get()->all();
 
     	return view('admin/users/address_edit')->with('address', $address)
     											->with('countries', $countries)
     											->with('states', $states)
+                                                ->with('districts', $districts)
+                                                ->with('pincodes', $pincodes)
     											->with('locations', $locations);
     }
 
@@ -149,7 +165,8 @@ class UserAddressController extends Controller
     		'line1'			=>	'required|max:255',
     		'line2'			=>	'nullable|max:255',
     		'location_id'	=>	'required|numeric',
-    		'pincode'		=>	'required|numeric|digits:6',
+    		'pincode_id'    =>  'required|numeric',
+            'district_id'   =>  'required|numeric',
     		'state_id'		=>	'required|numeric',
     		'country_id'	=>	'required|numeric',
     	]);
@@ -164,13 +181,20 @@ class UserAddressController extends Controller
 			    		'line1'			=>	$data['line1'],
 			    		'line2'			=>	$data['line2'],
 			    		'location_id'	=>	$data['location_id'],
-			    		'pincode'		=>	$data['pincode'],
+			    		'pincode_id'    =>  $data['pincode_id'],
+                        'district_id'   =>  $data['district_id'],
 			    		'state_id'		=>	$data['state_id'],
 			    		'country_id'	=>	$data['country_id'],
-			    		'shipping_billing'	=>	$data['shipping_billing']
 			    	]);
 
 		return redirect()->back()
 					->withErrors('UPDATED !! Address is successfully updated');
+    }
+
+    public function destroy($id)
+    {
+        User_address::where('id', $id)->delete();
+        return redirect()->back()
+                    ->withErrors('DELETED !! Address is successfully deleted');
     }
 }

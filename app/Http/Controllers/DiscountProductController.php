@@ -10,6 +10,7 @@ class DiscountProductController extends Controller
 {
     public function index()
     {
+        $this->authorize('discount_product_access');
     	$products = Product::with('discount')
 							->orderBy('product_name', 'ASC')
 							->paginate(25);
@@ -19,6 +20,7 @@ class DiscountProductController extends Controller
 
     public function update(Request $request)
     {
+        $this->authorize('discount_product_update');
     	foreach ($request->post('products') as $product) {
     		if (!empty($product['id']) && 
     			$product['discount'] != '' && 

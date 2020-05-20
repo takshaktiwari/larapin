@@ -42,20 +42,11 @@
 							</div>
 							<div class="form-group">
 							    <label for="">Mobile </label>
-							    <input type="number" name="mobile" class="form-control" value="{{ $user->detail->mobile }}">
+							    <input type="number" name="mobile" class="form-control" value="{{ $user->mobile }}">
 							</div>
 							<div class="form-group">
-							    <label for="">Gender</label>
-							    <select name="gender" class="form-control" >
-							        <option value="">-- Select --</option>
-							        <option value="Male" {{ selected($user->detail->gender, 'Male') }}>Male</option>
-							        <option value="Female" {{ selected($user->detail->gender, 'Female') }}>Female</option>
-							        <option value="Others" {{ selected($user->detail->gender, 'Others') }}>Others</option>
-							    </select>
-							</div>
-							<div class="form-group">
-							    <label for="">Role <span class="text-danger">*</span></label>
-							    <select name="role_id" class="form-control" required>
+							    <label for="">Role </label>
+							    <select name="role_id" class="form-control">
 							        <option value="">-- Select --</option>
 							        @foreach($roles as $role)
 							        	<option value="{{ $role->id }}" {{ selected($role->id, $user->role_id) }}>

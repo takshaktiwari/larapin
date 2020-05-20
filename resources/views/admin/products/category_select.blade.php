@@ -32,7 +32,6 @@
                             aria-expanded="true"
                             aria-controls="collapseOne">
                         {{ $category->category }}
-                        <span class="badge badge-dark badge-pill ml-2">{{ $category->id }}</span>
                     </a>
                 </h6>
                 <div class="my-auto custom_check">

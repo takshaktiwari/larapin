@@ -12,21 +12,34 @@ class AjaxController extends Controller
     							->get()->all();
     }
 
-    public function get_state_locations(Request $request)
+    public function get_state_districts(Request $request)
     {
-    	return \App\Location::where('state_id', $request->post('state_id'))
+        return \App\District::where('state_id', $request->post('state_id'))
+                                ->get()->all();
+    }
+
+    public function get_district_pincodes(Request $request)
+    {
+    	return \App\Pincode::where('district_id', $request->post('district_id'))
     							->get()->all();
     }
 
-    public function get_location_pincode(Request $request)
+    public function get_pincode_locations(Request $request)
     {
-    	return \App\Location::find($request->post('location_id'));
+        return \App\Location::where('pincode_id', $request->post('pincode_id'))
+                                ->get()->all();
     }
 
-    public function tinymce_image_upload(Request $request)
+    public function product_add_attr_price(Request $request)
     {
-        echo "<pre>";
-        print_r ($request->all());
-        echo "</pre>";
+        if ($request->input('pr_option_id')) {
+            $pr_option = \App\Product_option::find($request->input('pr_option_id'));
+            if ($pr_option) {
+
+                return $request->input('base_price') + (int)$pr_option->price;
+            }
+        }
     }
+
+
 }

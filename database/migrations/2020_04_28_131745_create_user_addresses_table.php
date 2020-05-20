@@ -23,11 +23,10 @@ class CreateUserAddressesTable extends Migration
             $table->string('line1', 255)->nullable();
             $table->string('line2', 255)->nullable();
             $table->integer('location_id')->nullable();
-            $table->string('pincode', 6);
+            $table->integer('pincode_id')->nullable();
+            $table->integer('district_id')->nullable();
             $table->integer('state_id')->nullable();
             $table->integer('country_id')->nullable();
-            $table->tinyInteger('shipping_billing')->default('1')
-                                                ->comment('1=shipping, 2=billing');
             $table->boolean('default_addr')->default(true);
             $table->timestamps();
         });

@@ -18,6 +18,16 @@ class User_address extends Model
     	return $this->belongsTo('App\Location');
     }
 
+    public function pincode()
+    {
+        return $this->belongsTo('App\Pincode');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo('App\District');
+    }
+
     public function state()
     {
     	return $this->belongsTo('App\State');

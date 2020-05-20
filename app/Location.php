@@ -17,4 +17,14 @@ class Location extends Model
     {
     	return $this->belongsTo('App\Country');
     }
+
+    public function pincode()
+    {
+    	return $this->belongsTo('App\Pincode');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo('App\District');
+    }
 }

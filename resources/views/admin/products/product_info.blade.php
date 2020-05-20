@@ -123,7 +123,15 @@
                                         <input type="text" name="base_stock" required class="form-control" value="{{ $product->base_stock }}">
                                     </div>
                                 </div>
-                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">In Offer <span class="text-danger">*</span></label>
+                                        <select name="in_offer" class="form-control" required>
+                                            <option value="0" {{ selected($product->in_offer, '0') }}>No</option>
+                                            <option value="1" {{ selected($product->in_offer, '1') }}>Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Featured <span class="text-danger">*</span></label>

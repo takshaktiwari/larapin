@@ -86,6 +86,32 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="">District <span class="text-danger">*</span></label>
+                                    <select name="district_id" id="district_id" class="form-control" required>
+                                        <option value="">-- Select District --</option>
+                                        @foreach($districts as $district)
+                                            <option value="{{ $district->id }}" {{ selected($district->id, $address->district_id) }}>
+                                                {{ $district->district }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Pincode <span class="text-danger">*</span></label>
+                                    <select name="pincode_id" id="pincode_id" class="form-control" required>
+                                        <option value="">-- Select Pincode --</option>
+                                        @foreach($pincodes as $pincode)
+                                            <option value="{{ $pincode->id }}" {{ selected($pincode->id, $address->pincode_id) }}>
+                                                {{ $pincode->pincode }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
                                     <label for="">Location <span class="text-danger">*</span></label>
                                     <select name="location_id" id="location_id" class="form-control" required>
                                         <option value="">-- Select --</option>
@@ -97,25 +123,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Pin-Code <span class="text-danger">*</span></label>
-                                    <input type="text" name="pincode" id="pincode" required class="form-control" value="{{ $address->pincode }}">
-                                </div>
-                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="">Shipping / Billing Address <span class="text-danger">*</span></label>
-                            <select name="shipping_billing" class="form-control" required>
-                                <option value="1" {{ selected('1', $address->shipping_billing) }} >
-                                    Shipping Address
-                                </option>
-                                <option value="2" {{ selected('2', $address->shipping_billing) }} >
-                                    Billing Address
-                                </option>
-                            </select>
-                        </div>
-                        
                         <input type="hidden" name="address_id" value="{{ $address->id }}">
                         <input type="submit" class="btn btn-primary px-4">
                     </form>
@@ -158,14 +166,14 @@
 
                 if(state_id != ''){
                     $.ajax({
-                        url: '{{ url('ajax/get_state_locations') }}',
+                        url: '{{ url('ajax/get_state_districts') }}',
                         type: 'POST',
                         data: {state_id: state_id ,_token: '{{csrf_token()}}'},
                         success: function(result){
-                            $("#location_id").html('<option value="">-- Select Location --</option>');
+                            $("#district_id").html('<option value="">-- Select District --</option>');
                             if(result != ''){
                                 $.each(result, function(index, val) {
-                                    $("#location_id").append('<option value="'+val.id+'">'+val.location+'</option>');
+                                    $("#district_id").append('<option value="'+val.id+'">'+val.district+'</option>');
                                 });
                             }
                         }
@@ -174,18 +182,41 @@
                 }
             });
 
-            $("#location_id").change(function(event) {
-                var location_id = $(this).val();
+            $("#district_id").change(function(event) {
+                var district_id = $(this).val();
 
-                if(location_id != ''){
+                if(district_id != ''){
                     $.ajax({
-                        url: '{{ url('ajax/get_location_pincode') }}',
+                        url: '{{ url('ajax/get_district_pincodes') }}',
                         type: 'POST',
-                        data: {location_id: location_id ,_token: '{{csrf_token()}}'},
+                        data: {district_id: district_id ,_token: '{{csrf_token()}}'},
                         success: function(result){
-                            
+                            $("#pincode_id").html('<option value="">-- Select Pincode --</option>');
                             if(result != ''){
-                                $("#pincode").val(result.pincode);
+                                $.each(result, function(index, val) {
+                                    $("#pincode_id").append('<option value="'+val.id+'">'+val.pincode+'</option>');
+                                });
+                            }
+                        }
+                    });
+                    
+                }
+            });
+
+            $("#pincode_id").change(function(event) {
+                var pincode_id = $(this).val();
+
+                if(pincode_id != ''){
+                    $.ajax({
+                        url: '{{ url('ajax/get_pincode_locations') }}',
+                        type: 'POST',
+                        data: {pincode_id: pincode_id ,_token: '{{csrf_token()}}'},
+                        success: function(result){
+                            $("#location_id").html('<option value="">-- Select Location --</option>');
+                            if(result != ''){
+                                $.each(result, function(index, val) {
+                                    $("#location_id").append('<option value="'+val.id+'">'+val.location+'</option>');
+                                });
                             }
                         }
                     });

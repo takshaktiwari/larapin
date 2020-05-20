@@ -18,7 +18,9 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+    	        	@can('slider_create')
     	            <a href="{{ url('admin/slide/create') }}" class="btn btn-primary">+ Create New</a>
+    	            @endcan
     	        </div>
     	    </div>
     	</div>
@@ -60,13 +62,17 @@
 					                </div>
 					            </td>
 					            <td class="font-size-20">
+					            	@can('slider_update')
 				                    <a href="{{ url('admin/slide/edit/'.$slide->id) }}" class="btn btn-sm btn-success" title="Edit this">
 				                        <i class="fas fa-edit"></i>
 				                    </a>
-
+				                    @endcan
+									
+									@can('slider_delete')
 				                    <a href="{{ url('admin/slide/delete/'.$slide->id) }}" class="btn btn-sm btn-danger" title="Delete this" onclick="return confirm('Are you sure to delete ?')">
 				                        <i class="fas fa-trash"></i>
 				                    </a>
+				                    @endcan
 					            </td>
 					        </tr>
 					    @endforeach

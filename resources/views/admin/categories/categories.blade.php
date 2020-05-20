@@ -22,7 +22,9 @@
     	            	<i class="fas fa-sliders-h"></i>
     	            	Filter
     	            </a>
+    	            @can('category_create')
     	            <a href="{{ url('admin/category/create') }}" class="btn btn-primary">+ Create New</a>
+    	            @endcan
     	        </div>
     	    </div>
     	</div>
@@ -87,18 +89,21 @@
 					                @endif
 					            </td>
 					            <td class="font-size-20">
-					            	<a href="{{ url('admin/category/show/'.$category->id) }}" class="btn btn-sm btn-info" title="View Details">
-					            	    <i class="fas fa-info-circle"></i>
-					            	</a>
-					            	<a href="{{ url('admin/category/locations/'.$category->id) }}" class="btn btn-sm btn-secondary" title="Category Locations">
+					            	@can('category_location')
+					            	<a href="{{ url('admin/category/'.$category->id.'/countries') }}" class="btn btn-sm btn-secondary" title="Category Locations">
 					            	    <i class="fas fa-map-marker-alt"></i>
 					            	</a>
+					            	@endcan
+					            	@can('category_attributes')
 					            	<a href="{{ url('admin/category/attributes/'.$category->id) }}" class="btn btn-sm btn-dark" title="category Attributes">
 					            	    <i class="fas fa-bezier-curve"></i>
 					            	</a>
+					            	@endcan
+					            	@can('category_update')
 				                    <a href="{{ url('admin/category/edit/'.$category->id) }}" class="btn btn-sm btn-danger" title="Edit this">
 				                        <i class="fas fa-edit"></i>
 				                    </a>
+				                    @endcan
 					            </td>
 					        </tr>
 					    @endforeach

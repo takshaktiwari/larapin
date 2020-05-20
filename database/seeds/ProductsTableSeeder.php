@@ -45,6 +45,7 @@ class ProductsTableSeeder extends Seeder
 	        					'short_description'	=>	$faker->paragraph($nbSentences = rand(3, 7), $variableNbSentences = true),
 	        					'product_tags'	=>	str_replace(' ', ',', $faker->paragraph($nbSentences = rand(3, 7), $variableNbSentences = true)),
 	        					'slug'			=>	$slug,
+	        					'in_offer'		=>	rand(0, 1),
 	        					'featured'		=>	rand(0, 1),
 	        					'status'		=>	rand(0, 1),
 	        				]);

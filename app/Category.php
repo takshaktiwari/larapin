@@ -18,9 +18,9 @@ class Category extends Model
         return $this->hasMany('App\Category', 'parent', 'id');
     }
 
-    public function locations()
+    public function countries()
     {
-    	return $this->belongsToMany('App\Location');
+        return $this->belongsToMany('App\Country');
     }
 
     public function states()
@@ -28,9 +28,14 @@ class Category extends Model
         return $this->belongsToMany('App\State');
     }
 
-    public function countries()
+    public function districts()
     {
-        return $this->belongsToMany('App\Country');
+        return $this->belongsToMany('App\District');
+    }
+
+    public function pincodes()
+    {
+    	return $this->belongsToMany('App\Pincode');
     }
 
     public function attributes()

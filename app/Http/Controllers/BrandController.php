@@ -9,17 +9,20 @@ class BrandController extends Controller
 {
     public function index()
     {
+        $this->authorize('brand_access');
     	$brands = Brand::paginate(25);
     	return view('admin/brands/brands')->with('brands', $brands);
     }
 
     public function create()
     {
+        $this->authorize('brand_create');
     	return view('admin/brands/brand_create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('brand_create');
     	$request->validate([
     		'brand'			=>	'required|unique:brands,brand',
     		'm_title'		=> 'nullable|max:250',
@@ -42,12 +45,14 @@ class BrandController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('brand_update');
     	$brand = Brand::find($id);
     	return view('admin/brands/brand_edit')->with('brand', $brand);
     }
 
     public function update(Request $request)
     {
+        $this->authorize('brand_update');
     	$request->validate([
     		'brand'			=>	'required',
     		'm_title'		=> 	'nullable|max:250',
@@ -71,6 +76,7 @@ class BrandController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('brand_delete');
     	Brand::find($id)->delete();
     	return redirect()->back()->withErrors('DELETED !! Brand is successfully deleted');
     }

@@ -11,12 +11,14 @@ class ProductImageController extends Controller
 {
     public function edit($id)
     {
+        $this->authorize('product_update_images');
     	$product = Product::find($id);
     	return view('admin/products/product_images')->with('product', $product);
     }
 
     public function update(Request $request)
     {
+        $this->authorize('product_update_images');
     	$product = Product::find($request->post('product_id'));
 
     	if(!empty($_FILES['product_img'])){
@@ -78,6 +80,7 @@ class ProductImageController extends Controller
 
     public function destroy($img_id)
     {
+        $this->authorize('product_update_images');
     	$image = Product_image::find($img_id);
     	Product_image::where('id', $img_id)->delete();
     	if (isset($image->primary_img) && $image->primary_img == '1') {
@@ -94,6 +97,7 @@ class ProductImageController extends Controller
 
     public function primary($img_id)
     {
+        $this->authorize('product_update_images');
     	$image = Product_image::find($img_id);
     	Product_image::where('product_id', $image->product_id)
     					->update(['primary_img' => false]);

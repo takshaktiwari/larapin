@@ -9,12 +9,14 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $this->authorize('product_access');
     	$products = Product::orderBY('id', 'DESC')->paginate(25);
     	return view('admin/products/products')->with('products', $products);
     }
 
     public function create()
     {
+        $this->authorize('product_create');
     	$categories = \App\Category::whereNull('parent')
     								->with('child_categories')
     								->get()->all();
@@ -26,12 +28,14 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('product_create');
     	$request->validate([
     		'product_name'		=>	'required|max:250|unique:products,product_name',
     		'subtitle'			=>	'nullable|max:250',
     		'base_price'		=>	'required',
             'base_stock'        =>  'required|numeric',
-    		'featured'			=>	'required|numeric',
+    		'in_offer'			=>	'required|numeric',
+            'featured'          =>  'required|numeric',
     		'status'			=>	'required|numeric',
     	]);
 
@@ -44,6 +48,7 @@ class ProductController extends Controller
 						'base_price'		=>	$request->post('base_price'),
                         'base_stock'        =>  $request->post('base_stock'),
 						'brand_id'			=>	$request->post('brand_id'),
+                        'in_offer'          =>  $request->post('in_offer'),
                         'featured'          =>  $request->post('featured'),
 						'status'			=>	$request->post('status'),
 						'short_description'	=>	$request->post('short_description'),
@@ -62,6 +67,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('product_update_info');
     	$product = Product::find($id);
         $brands = \App\Brand::orderBy('brand', 'ASC')->get()->all();
     	$categories = \App\Category::whereNull('parent')
@@ -75,11 +81,13 @@ class ProductController extends Controller
 
     public function info_update(Request $request)
     {
+        $this->authorize('product_update_info');
         $request->validate([
             'product_name'      =>  'required|max:250',
             'subtitle'          =>  'nullable|max:250',
             'base_price'        =>  'required',
             'base_stock'        =>  'nullable|numeric',
+            'in_offer'          =>  'required|numeric',
             'featured'          =>  'required|numeric',
             'status'            =>  'required|numeric',
         ]);
@@ -96,6 +104,7 @@ class ProductController extends Controller
                         'base_price'        =>  $request->post('base_price'),
                         'base_stock'        =>  $request->post('base_stock'),
                         'brand_id'          =>  $request->post('brand_id'),
+                        'in_offer'          =>  $request->post('in_offer'),
                         'featured'          =>  $request->post('featured'),
                         'status'            =>  $request->post('status'),
                         'short_description' =>  $request->post('short_description'),
@@ -112,5 +121,37 @@ class ProductController extends Controller
 
         return redirect('admin/product/details/'.$product->id)
                     ->withErrors('UPDATED !! Product '.$request->post('product_name').' is successfully updated. Please update other informations.');
+    }
+
+    public function destroy($id)
+    {
+        $this->authorize('product_delete');
+        $product = Product::find($id);
+
+        if ($product) {
+            foreach ($product->images as $image) {
+                if (file_exists(base_path('storage'.$image->image_sm))) {
+                    //unlink(base_path('storage'.$image->image_sm));
+                }
+                if (file_exists(base_path('storage'.$image->image_md))) {
+                    //unlink(base_path('storage'.$image->image_md));
+                }
+                if (file_exists(base_path('storage'.$image->image_lg))) {
+                    //unlink(base_path('storage'.$image->image_lg));
+                }
+            }
+
+            Product::where('id', $product->id)->delete();
+            Product_detail::where('product_id', $product->id)->delete();
+            Product_image::where('product_id', $product->id)->delete();
+            Product_attr::where('product_id', $product->id)->delete();
+            Product_option::where('product_id', $product->id)->delete();
+            Product_image::where('product_id', $product->id)->delete();
+            Product_review::where('product_id', $product->id)->delete();
+
+            return redirect()->back()->withErrors('DELETED !! Product is successfully deleted');
+        }else{
+            return redirect()->back()->withErrors('ERROR !! Product not found');
+        }
     }
 }

@@ -16,7 +16,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'email_verified_at', 'api_token'
+        'name', 
+        'email', 
+        'password', 
+        'email_verified_at', 
+        'api_token', 
+        'role_id', 
+        'mobile',
+        'facebook_id',
+        'google_id',
+        'twitter_id',
+        'user_img'
     ];
 
     /**
@@ -42,14 +52,19 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
-    public function detail($value='')
+    public function wishlists($value='')
     {
-        return $this->hasOne('App\User_detail');
+        return $this->hasMany('App\Wishlist');
     }
 
-    public function addesses()
+    public function addresses()
     {
         return $this->hasMany('App\User_address');
+    }
+
+    public function coupons()
+    {
+        return $this->belongsToMany('App\Coupon');
     }
 
     public function reviews()
