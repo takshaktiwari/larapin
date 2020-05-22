@@ -40,15 +40,24 @@ Route::get('pincode', 'Api\AddressConroller@pincode');
 Route::get('locations', 'Api\AddressConroller@locations');
 Route::get('location', 'Api\AddressConroller@location');
 
+Route::get('shipping_slots', 'Api\CheckoutController@shipping_slots');
+Route::get('shipping_charge', 'Api\CheckoutController@shipping_charge');
+
 Route::middleware('auth:api')->group(function(){
 	Route::post('change_password', 'Api\UserController@change_password');
 
 	Route::get('wishlist', 'Api\WishlistController@wishlist');
 	Route::get('wishlist/add', 'Api\WishlistController@add');
+
 	Route::get('wishlist/delete', 'Api\WishlistController@destroy');
+	Route::post('coupon_verify', 'Api\CheckoutController@coupon_verify');
 
 	Route::get('address', 'Api\AddressConroller@address');
 	Route::get('addresses', 'Api\AddressConroller@addresses');
 	Route::post('address_create', 'Api\AddressConroller@address_create');
 	Route::post('address_update', 'Api\AddressConroller@address_update');
+
+	Route::post('checkout', 'Api\CheckoutController@checkout');
+	Route::get('orders', 'Api\OrderController@orders');
+	Route::get('order_detail', 'Api\OrderController@order_detail');
 });

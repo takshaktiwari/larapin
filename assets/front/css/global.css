@@ -372,7 +372,7 @@ footer:after {
     background-repeat: no-repeat;
     background-image: url(../img/preloader.webp);
     background-size: 80px;
-    transform: scale(2);
+    transform: scale(1.5);
 }
 
 .slick-dots {

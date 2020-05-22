@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.png') }}');">
+	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.webp') }}');">
 		<div class="container">
 			<div class="banner-inner text-center">
 				<h2 class="page-title">Login</h2>
@@ -61,10 +61,10 @@
 							<div class="or-text">or you can join with</div>
 							<div class="share-btn-wrap">
 								<div class="facebook-btn">
-									<a href="#"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
+									<a href="{{ url('auth/facebook') }}"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
 								</div>
 								<div class="google-btn">
-									<a href="#"><i class="fab fa-google"></i><span>Google</span></a>
+									<a href="{{ url('auth/google') }}"><i class="fab fa-google"></i><span>Google</span></a>
 								</div>
 							</div>
 						</div>

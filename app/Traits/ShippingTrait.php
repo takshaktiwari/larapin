@@ -24,7 +24,6 @@ trait ShippingTrait {
 						    		['type'	=>	'1']
 						    	);
 
-
         	if ($shipp_type->type == '1') {
 
         		$upper_limit = Shipping_global::orderBy('min_value', 'DESC')->first();

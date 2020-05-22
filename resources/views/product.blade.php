@@ -81,7 +81,7 @@
 @endsection
 
 @section('content')
-	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.png') }}');">
+	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.webp') }}');">
 		<div class="container">
 			<div class="banner-inner text-center">
 				<h2 class="page-title">{{ substr($product->product_name, 0, 20) }}...</h2>
@@ -133,7 +133,7 @@
 										@if($product->reviews->count())
 											<div class="star mr-15">
 												@for($i=0; $i<=$product->reviews->avg('rating'); $i++)
-													<i class="flaticon-star"></i>
+													<i class="fas fa-star"></i>
 												@endfor
 											</div>
 											<a href="{{ url('reviews/'.$product->slug) }}" class="text">
@@ -263,7 +263,7 @@
 											</div>
 											<div class="product-action">
 												<a href="#" class="add-to-btn small-btn">
-													<i class="flaticon-shopping-cart"></i>
+													<i class="fas fa-shopping-cart"></i>
 													<span>Add to Cart</span>
 													<h5 class="product-price">
 														<i class="fas fa-rupee-sign"></i>

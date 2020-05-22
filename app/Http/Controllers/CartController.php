@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\User;
 use App\Cart;
 use App\Cart_attribute;
 use App\Product;

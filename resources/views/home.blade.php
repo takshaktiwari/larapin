@@ -233,7 +233,7 @@
 							</div>
 							<div class="product-action">
 								<a href="{{ url('cart/store?quantity=1&product_id='.$product->id) }}" class="add-to-btn small-btn">
-									<i class="flaticon-shopping-cart"></i>
+									<i class="fas fa-shopping-cart"></i>
 									<span>Add to Cart</span>
 									<h5 class="product-price">
 										<i class="fas fa-rupee-sign"></i>
@@ -275,7 +275,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div class="work-box down-dashed">
-						<span class="work-number"><i class="flaticon-shopping-cart"></i></span>
+						<span class="work-number"><i class="fas fa-shopping-cart"></i></span>
 						<h5>Step 1</h5>
 						<span class="line"></span>
 						<p>Choose Your Product</p>
@@ -283,7 +283,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="work-box up-dashed">
-						<span class="work-number"><i class="flaticon-harvest"></i></span>
+						<span class="work-number"><i class="fas fa-people-carry"></i></span>
 						<h5>Step 2</h5>
 						<span class="line"></span>
 						<p>Local Farm Product It</p>
@@ -291,7 +291,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="work-box down-dashed">
-						<span class="work-number"><i class="flaticon-address"></i></span>
+						<span class="work-number"><i class="fas fa-home"></i></span>
 						<h5>Step 3</h5>
 						<span class="line"></span>
 						<p>Pick Up From Local Spot</p>
@@ -299,7 +299,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="work-box">
-						<span class="work-number"><i class="flaticon-delivery-truck"></i></span>
+						<span class="work-number"><i class="fas fa-truck"></i></span>
 						<h5>Step 4</h5>
 						<span class="line"></span>
 						<p>We Can Delivery it Fast</p>
@@ -309,4 +309,5 @@
 		</div>
 	</section>
 @endsection
+
 

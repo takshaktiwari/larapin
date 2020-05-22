@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.png') }}');">
+	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.webp') }}');">
 		<div class="container">
 			<div class="banner-inner text-center">
 				<h2 class="page-title">My Cart</h2>
@@ -57,7 +57,7 @@
 										<input type="hidden" name="cart_items[{{ $cart_item['id'] }}][cart_id]" value="{{ $cart_item['id'] }}">
 										<div class="cart-single-item">
 											<a href="{{ url('cart/remove/'.$cart_item['id']) }}" class="close">
-												<i class="flaticon-cross"></i>
+												<i class="fas fa-times"></i>
 											</a>
 											<div class="product-img">
 												<a href="{{ url('product/'.$cart_item['product']['slug']) }}">

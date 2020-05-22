@@ -69,7 +69,7 @@ $(".custom_alert").animate(
             $('.main-menu > ul').append('<button><i class="flaticon-cross"></i></button>');
         }
         if ($('.main-menu .dropdown > ul').length) {
-            $('.main-menu .dropdown > ul').after('<div class="dropdown-btn"><span class="flaticon-add-plus-button"></span></div>');
+            $('.main-menu .dropdown > ul').after('<div class="dropdown-btn"><span class="fas fa-plus"></span></div>');
         }
         $(".main-menu .dropdown-btn").on('click', function() {
             $(this).prev('ul').slideToggle();
@@ -115,8 +115,8 @@ $(".custom_alert").animate(
             $('.special-offer-slider').slick({
                 infinite: true,
                 arrows: true,
-                prevArrow: '<button class="center-array-prev"><i class="flaticon-angle-pointing-to-left"></i></button>',
-                nextArrow: '<button class="center-array-next"><i class="flaticon-angle-arrow-pointing-to-right"></i></button>',
+                prevArrow: '<button class="center-array-prev"><i class="fas fa-angle-left"></i></button>',
+                nextArrow: '<button class="center-array-next"><i class="fas fa-angle-right"></i></button>',
                 pauseOnHover: false,
                 autoplay: 2000,
                 slidesToShow: 4,

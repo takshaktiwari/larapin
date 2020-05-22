@@ -1,7 +1,7 @@
 <div class="shop-sidebar">
 	<div class="shop-widget b1">
 		<div class="shop-widget-title">
-			<h5><i class="flaticon-list"></i>Categories</h5>
+			<h5><i class="fas fa-list"></i>Categories</h5>
 		</div>
 		<ul>
 			@foreach(get_categories() as $category)
@@ -43,7 +43,7 @@
 					</div>
 					<div class="product-action">
 						<a href="{{ url('cart/store?quantity=1&product_id='.$product->id) }}" class="add-to-btn small-btn">
-							<i class="flaticon-shopping-cart"></i>
+							<i class="fas fa-shopping-cart mt-1"></i>
 							<span>Add to Cart</span>
 							<h5 class="product-price">
 								<i class="fas fa-rupee-sign"></i>

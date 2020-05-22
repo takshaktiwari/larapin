@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.png') }}');">
+<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.webp') }}');">
     <div class="container">
         <div class="banner-inner text-center">
             <h2 class="page-title">Password Reset</h2>

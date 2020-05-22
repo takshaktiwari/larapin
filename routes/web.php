@@ -12,8 +12,15 @@
 */
 
 Auth::routes();
+Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle');
+Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback');
+Route::get('auth/facebook', 'Auth\FacebookController@redirectToFacebook');
+Route::get('auth/facebook/callback', 'Auth\FacebookController@handleFacebookCallback');
+Route::get('home', 'UserController@home');
 
 Route::get('/', 'HomeController@index');
+Route::get('contact', 'HomeController@contact');
+Route::post('contact_us', 'HomeController@contact_us');
 Route::get('page/{slug}', 'PageController@front_show');
 
 Route::get('categories', 'CategoryController@front_index');

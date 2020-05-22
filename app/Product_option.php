@@ -13,7 +13,7 @@ class Product_option extends Model
     	return $this->belongsTo('App\Product');
     }
 
-    public function atrribute()
+    public function attribute()
     {
     	return $this->belongsTo('App\Attribute');
     }

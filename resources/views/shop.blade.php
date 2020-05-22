@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.png') }}');">
+	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.webp') }}');">
 		<div class="container">
 			<div class="banner-inner text-center">
 				<h2 class="page-title">Shop</h2>
@@ -77,7 +77,7 @@
 										</div>
 										<div class="product-action">
 											<a href="{{ url('cart/store?quantity=1&product_id='.$product->id) }}" class="add-to-btn small-btn">
-												<i class="flaticon-shopping-cart"></i>
+												<i class="fas fa-shopping-cart"></i>
 												<span>Add to Cart</span>
 												<h5 class="product-price">
 													<i class="fas fa-rupee-sign"></i>

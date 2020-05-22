@@ -6,10 +6,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<title>@yield('title', config('app.name', 'Laravel'))</title>
-	<meta name="description" content="@yield('m_description', config('app.name', 'Laravel'))">
-	<meta name="keywords" content="@yield('m_keywords', config('app.name', 'Laravel'))">
-	<meta name="author" content="@yield('m_author', config('app.name', 'Laravel'))">
+	<title>@yield('title', config('app.name', 'LalajiKirana'))</title>
+	<meta name="description" content="@yield('m_description', config('app.name', 'LalajiKirana'))">
+	<meta name="keywords" content="@yield('m_keywords', config('app.name', 'LalajiKirana'))">
+	<meta name="author" content="@yield('m_author', config('app.name', 'LalajiKirana'))">
 	<link rel="manifest" href="{{ url('/manifest.json') }}">
 	<link rel="shortcut icon" href="{{ url('/assets/front/logo/logo-48.png') }}" type="image/x-icon">
 	@section('styles')
@@ -38,7 +38,7 @@
 					@if(Agent::isDesktop())
 					<div class="categories">
 						<button>
-							<i class="flaticon-list"></i>
+							<i class="fas fa-list"></i>
 							<span>Categories</span>
 						</button>
 						<ul class="small-scroll">
@@ -77,7 +77,7 @@
 										{{ Auth::user()->wishlists->count() }}
 									@endif
 								</span>
-								<i class="flaticon-heart"></i>
+								<i class="fas fa-heart"></i>
 								<div class="collection-inner">
 									@if(empty(Auth::user()->wishlists))
 										<div class="text-center my-10">
@@ -90,9 +90,9 @@
 										</div>
 									@else
 										@foreach(Auth::user()->wishlists as $item)
-										{{-- <div class="alert single-collection">
+										<div class="alert single-collection">
 											<a href="{{ url('user/wishlist/delete/'.$item->id) }}">
-												<i class="flaticon-delete-button"></i>
+												<i class="fas fa-times"></i>
 											</a>
 											<div class="collection-image">
 												<img src="{{ url('storage'.$item->product->primary_img->image_sm) }}" alt="">
@@ -118,7 +118,7 @@
 													+ Add to Cart
 												</a>
 											</div>
-										</div>  --}}
+										</div>
 										@endforeach
 
 										@if(Auth::user()->wishlists->count())
@@ -144,7 +144,7 @@
 								<span class="badge badge-pill badge-primary cart_badge">
 									{{ count(session('cart', array())) }}
 								</span>
-								<i class="flaticon-shopping-cart"></i>
+								<i class="fas fa-shopping-cart"></i>
 								<div class="collection-inner">
 									<div id="header_cart_items_list" class="small-scroll">
 										@foreach(session('cart', array()) as $cart_item)
@@ -199,7 +199,7 @@
 							</div>
 						@endif
 						<div class="collection-item profile">
-							<i class="flaticon-user-1"></i>
+							<i class="fas fa-user-tie"></i>
 							<div class="collection-inner">
 								<ul>
 									<li>
@@ -269,7 +269,7 @@
 						</div>
 					</div>
 					<div class="main-menu">
-						<button><i class="flaticon-list-menu"></i></button>
+						<button><i class="fas fa-bars"></i></button>
 						<ul class="small-scroll">
 							<li><a href="{{ url('/') }}">Home</a></li>
 							<li><a href="{{ url('shop') }}">Shop</a></li>
@@ -353,7 +353,7 @@
 									@endguest
 								</ul>
 							</li>
-							<li><a href="{{ url('contact') }}">Contact</a></li>
+							<li><a href="{{ url('contact') }}">Contact Us</a></li>
 							@foreach(get_pages() as $page)
 								<li>
 									<a href="{{ url('page/'.$page->slug) }}">
@@ -379,8 +379,8 @@
 
 					<div class="col-lg-3 col-md-12 mb-30">
 						<div class="footer-widget logo-widget mr-20">
-							<div class="footer-logo">
-								<a href="index-2.html"><img src="{{ url('/') }}/assets/front/img/logo-footer.png" alt="footer logo"></a>
+							<div class="footer-logo text-sm-left text-center">
+								<a href="{{ url('/') }}"><img src="{{ url('assets/front/logo/logo-152.png') }}" alt="footer logo"></a>
 							</div>
 							<p>Praesent dapi cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros erat. Aliquam erat volutpat.</p>
 							<div class="footer-social-icon">

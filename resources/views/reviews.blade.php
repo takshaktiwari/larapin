@@ -22,7 +22,7 @@
 @endsection
 
 @section('content')
-	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.png') }}');">
+	<section class="banner-section" style="background-image:url('{{ url('assets/front/img/banner.webp') }}');">
 		<div class="container">
 			<div class="banner-inner text-center">
 				<h2 class="page-title">Reviews</h2>
@@ -58,7 +58,7 @@
 								<div class="rating mb-15">
 									<div class="star text-warning mr-15 d-inline">
 										@for($i=0; $i<=$product->reviews->avg('rating'); $i++)
-											<i class="flaticon-star"></i>
+											<i class="fas fa-star"></i>
 										@endfor
 									</div>
 									<a href="{{ url('reviews/'.$product->slug) }}" class="text">
@@ -144,7 +144,7 @@
 									</div>
 									<div class="text-warning">
 										@for($i=0; $i<=$review->rating; $i++)
-											<i class="flaticon-star"></i>
+											<i class="fas fa-star"></i>
 										@endfor
 									</div>
 									<p class="font-weight-bold text-dark mb-1">{{ $review->title }}</p>
