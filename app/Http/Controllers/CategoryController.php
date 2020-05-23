@@ -19,10 +19,30 @@ class CategoryController extends Controller
     }
 
 
-    public function index($value='')
+    public function index(Request $request)
     {
         $this->authorize('category_access');
-    	$categories = Category::with('parent_category')->paginate(25);
+    	$query = Category::where('id', '>', '0');
+
+        #   for search and filter
+        if ($request->get('search')) {
+            $query->where(function($query) use($request){
+                $query->where('category', 'like', '%'.$request->get('search').'%');
+                $query->orWhere('slug', 'like', '%'.$request->get('search').'%');
+            });
+        }
+        if ($request->get('parent')) {
+            $query->where('parent', $request->get('parent'));
+        }
+        if ($request->get('status')) {
+            $query->where('status', $request->get('status'));
+        }
+        if ($request->get('featured')) {
+            $query->where('featured', $request->get('featured'));
+        }
+
+        $categories = $query->paginate(25);
+
     	return view('admin/categories/categories')->with('categories', $categories);
     }
 

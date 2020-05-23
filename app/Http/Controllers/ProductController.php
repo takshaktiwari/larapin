@@ -2,17 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Product;
+use App\Imports\ProductsImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('product_access');
-    	$products = Product::orderBY('id', 'DESC')->paginate(25);
-    	return view('admin/products/products')->with('products', $products);
+    	$query = Product::where('id', '>', '0');
+
+        # searching and filter
+        if ($request->get('search')) {
+            $search = $request->get('search');
+            $query->where(function($query) use($search){
+                $query->where('product_name', 'like', '%'.$search.'%');
+                $query->orWhere('slug', 'like', '%'.$search.'%');
+                $query->orWhere('subtitle', 'like', '%'.$search.'%');
+                $query->orWhere('short_description', 'like', '%'.$search.'%');
+                $query->orWhere('product_tags', 'like', '%'.$search.'%');
+            });
+        }
+
+        if ($request->get('category')) {
+            $query->whereHas('categories', function($query) use($request){
+                $query->where('categories.id', $request->get('category'));
+            });
+        }
+
+        if ($request->get('status')) {
+            $query->where('status', $request->get('status'));
+        }
+        if ($request->get('featured')) {
+            $query->where('featured', $request->get('featured'));
+        }
+        if ($request->get('in_offer')) {
+            $query->where('in_offer', $request->get('in_offer'));
+        }
+        if ($request->get('min_price')) {
+            $query->where('base_price', '>=', $request->get('min_price'));
+        }
+        if ($request->get('max_price')) {
+            $query->where('base_price', '<=', $request->get('max_price'));
+        }
+        if ($request->get('min_stock')) {
+            $query->where('base_stock', '>=', $request->get('min_stock'));
+        }
+        if ($request->get('max_stock')) {
+            $query->where('base_stock', '<=', $request->get('max_stock'));
+        }
+
+        $products = $query->orderBY('id', 'DESC')->paginate(25);
+
+        $categories = \App\Category::orderBy('category', 'ASC')->get()->all();
+    	return view('admin/products/products')
+                                ->with('products', $products)
+                                ->with('categories', $categories);
     }
+
+    public function upload()
+    {
+        return view('admin/products/upload');
+    }
+
+    public function upload_sample()
+    {
+        return \Storage::download('downloadable/product_import_sample.xlsx');
+    }
+
+    public function upload_do(Request $request)
+    {
+        #   storing file basepath is '/storage/app/'
+        $ext = $request->file('import_file')->getClientOriginalExtension();
+        $imported_file = $request->file('import_file')
+                                    ->storeAs(
+                                        'imports', 'import-'.time().'.'.$ext
+                                    );
+
+        try {
+            set_time_limit(0);
+            Excel::import(new ProductsImport, storage_path('app/'.$imported_file));
+            return redirect('admin/products')->withErrors('SUCCESS !! Product List is successfully updated');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
+    
 
     public function create()
     {

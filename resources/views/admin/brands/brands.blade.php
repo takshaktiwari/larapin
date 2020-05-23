@@ -18,6 +18,10 @@
 
     	    <div class="col-sm-6">
     	        <div class="float-right d-none d-md-block">
+    	        	<a class="btn border font-weight-bold" data-toggle="collapse" data-target="#filter">
+    	            	<i class="fas fa-sliders-h"></i>
+    	            	Filter
+    	            </a>
     	        	@can('brand_create')
     	            <a href="{{ url('admin/brand/create') }}" class="btn btn-primary">+ Create New</a>
     	            @endcan
@@ -25,6 +29,25 @@
     	    </div>
     	</div>
     	<!-- end page title -->
+
+    	<div class="card collapse" id="filter">
+    		<div class="card-body">
+    			<form action="">
+    				<div class="row">
+    					<div class="col-8 col-md-9">
+    						<input type="text" name="search" class="form-control mb-sm-0 mb-0" placeholder="Search" value="{{ Request::get('search') }}">
+    					</div>
+						<div class="col-4 col-md-3">
+							<input type="submit" class="btn btn-success px-3">
+							<a href="{{ url('admin/brands') }}" class="btn btn-basic border">
+								<i class="fas fa-times"></i>
+							</a>
+						</div>
+    				</div>
+    			</form>
+    		</div>
+    	</div>
+
 
 		<div class="card">
 			<div class="card-body">

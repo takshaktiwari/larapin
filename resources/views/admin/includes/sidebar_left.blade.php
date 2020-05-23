@@ -56,6 +56,7 @@
                         <span>Products</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ url('admin/product/upload') }}">Upload Products</a></li>
                         @can('product_create')
                         <li><a href="{{ url('admin/product/create') }}">Create Product</a></li>
                         @endcan

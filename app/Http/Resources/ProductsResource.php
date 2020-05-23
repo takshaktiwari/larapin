@@ -17,7 +17,7 @@ class ProductsResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $arr = [
             'id'            =>  $this->id,
             'product_name'  =>  $this->product_name,
             'subtitle'      =>  $this->subtitle,
@@ -32,5 +32,13 @@ class ProductsResource extends JsonResource
             'short_description'  =>  $this->short_description,
             'product_image' =>  new ProductImageResource($this->primary_img),
         ];
+
+        if ($this->wishlists->count()) {
+            $arr = array_merge($arr, ['in_wishlist' => 1]);
+        }else{
+            $arr = array_merge($arr, ['in_wishlist' => 0]);
+        }
+
+        return $arr;
     }
 }

@@ -16,10 +16,8 @@ class ShopController extends Controller
                             $query->whereNotNull('primary_img');
                         });
         if (!empty($request->get('category'))) {
-            $category = Category::where('slug', $request->get('category'))->first();
-            $query->with('categories')
-                    ->whereHas('categories', function($query) use ($category){
-                        $query->whereIn('categories.id', $category);
+            $query->whereHas('categories', function($query) use ($request){
+                        $query->where('categories.slug', $request->get('category'));
                     });
         }
         if (!empty($request->get('search'))){

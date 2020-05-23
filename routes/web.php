@@ -38,6 +38,9 @@ Route::get('checkout', 'CheckoutController@checkout');
 Route::post('checkout/do', 'CheckoutController@checkout_do');
 Route::get('order/confirmation/{order_id}', 'OrderController@confirmation');
 
+Route::post('subscribe', 'SubscriberController@subscribe');
+Route::get('unsubscribe/{email}', 'SubscriberController@unsubscribe');
+
 Route::middleware(['auth'])->group(function(){
 	Route::post('review/create', 'ProductReviewController@front_store');
 });
@@ -111,6 +114,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 	Route::get('attr_option/delete/{id}', 'AttrOptionController@destroy');
 
 	Route::get('products', 'ProductController@index');
+	Route::get('product/upload', 'ProductController@upload');
+	Route::post('product/upload', 'ProductController@upload_do');
+	Route::get('product/upload/sample', 'ProductController@upload_sample');
 	Route::get('product/create', 'ProductController@create');
 	Route::post('product/create', 'ProductController@store');
 	Route::get('product/info/{id}', 'ProductController@edit');
@@ -244,6 +250,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function(){
 	
 	Route::get('settings', 'SettingController@index');
 	Route::post('settings/update', 'SettingController@update');
+
+	Route::get('export/download', 'ExportController@download');
+	Route::get('export/delete', 'ExportController@destroy');
+	Route::get('export/products', 'ExportController@export_products');
+	Route::get('exports', 'ExportController@exports');
 });
 
 Route::post('ajax/get_country_states', 'AjaxController@get_country_states');
@@ -251,3 +262,4 @@ Route::post('ajax/get_state_districts', 'AjaxController@get_state_districts');
 Route::post('ajax/get_district_pincodes', 'AjaxController@get_district_pincodes');
 Route::post('ajax/get_pincode_locations', 'AjaxController@get_pincode_locations');
 Route::get('ajax/product_add_attr_price', 'AjaxController@product_add_attr_price');
+Route::post('ajax/selected_product_action', 'AjaxController@selected_product_action');

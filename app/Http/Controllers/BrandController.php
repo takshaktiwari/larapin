@@ -7,10 +7,18 @@ use App\Brand;
 
 class BrandController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('brand_access');
-    	$brands = Brand::paginate(25);
+    	$query = Brand::where('id', '>', '0');
+
+        # for search and filter
+        if ($request->get('search')) {
+            $query->where('brand', 'like', '%'.$request->get('search').'%');
+            $query->orWhere('slug', 'like', '%'.$request->get('search').'%');
+        }
+
+        $brands = $query->orderBy('brand', 'ASC')->paginate(25);
     	return view('admin/brands/brands')->with('brands', $brands);
     }
 

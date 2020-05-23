@@ -139,6 +139,15 @@ class CheckoutController extends Controller
             ]);
         }
 
+        #   add to subscriber list
+        if (!empty($user->email)) {
+            \App\Subscriber::updateOrCreate(
+                ['email'    =>  $user->email],
+                ['name'     =>  $user->name,
+                'mobile'    =>  $user->mobile]
+            );
+        }
+        
 
         if (!$user_address) {
             return redirect()->back()->withErros('ERROR !! No shipping address is provided. Please give a valid shipping address for delivery');

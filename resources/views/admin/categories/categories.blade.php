@@ -30,9 +30,45 @@
     	</div>
     	<!-- end page title -->
 
-    	<div class="card" id="filter">
+    	<div class="card collapse" id="filter">
     		<div class="card-body">
-    			<form action=""></form>
+    			<form action="">
+    				<div class="row">
+    					<div class="col-12 col-md-3">
+    						<input type="text" name="search" class="form-control mb-sm-0 mb-2" placeholder="Search" value="{{ Request::get('search') }}">
+    					</div>
+    					<div class="col-12 col-md-3">
+    						<select name="parent" id="" class="form-control mb-sm-0 mb-2">
+    							<option value="">Parent Category</option>
+    							@foreach($categories as $category)
+    								<option value="{{ $category->id }}" {{ selected(Request::get('parent'), $category->id) }}>
+    									{{ $category->category }}
+    								</option>
+    							@endforeach
+    						</select>
+    					</div>
+    					<div class="col-6 col-md-2">
+    						<select name="status" id="" class="form-control mb-sm-0 mb-2">
+    							<option value="">-- Select --</option>
+    							<option value="1" {{ selected(Request::get('status'), '1') }} >Active</option>
+    							<option value="0" {{ selected(Request::get('status'), '0') }} >In-Active</option>
+    						</select>
+    					</div>
+						<div class="col-6 col-md-2">
+							<select name="featured" id="" class="form-control mb-sm-0 mb-2">
+								<option value="">-- Select --</option>
+								<option value="1" {{ selected(Request::get('featured'), '1') }} >Featured</option>
+								<option value="0" {{ selected(Request::get('featured'), '0') }} >Not-Featured</option>
+							</select>
+						</div>
+						<div class="col-12 col-md-2">
+							<input type="submit" class="btn btn-success px-3">
+							<a href="{{ url('admin/categories') }}" class="btn btn-basic border">
+								<i class="fas fa-times"></i>
+							</a>
+						</div>
+    				</div>
+    			</form>
     		</div>
     	</div>
 

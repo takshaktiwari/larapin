@@ -410,8 +410,9 @@
 						<div class="footer-widget form-widget ml-115 mr-30">
 							<h5 class="footer-title mb-30">Subscribe Our News Letter</h5>
 							<p>Praesent dapi cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros</p>
-							<form class="subscribe">
-								<input type="email" placeholder="Your Email For Notify" required>
+							<form action="{{ url('subscribe') }}" method="POST" class="subscribe">
+								@csrf
+								<input type="email" name="email" placeholder="Your Email For Notify" required>
 								<button type="submit">Send</button>
 							</form>
 						</div>

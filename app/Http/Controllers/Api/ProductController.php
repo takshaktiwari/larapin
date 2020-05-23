@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ProductsResource;
 use App\Http\Resources\ProductResource;
 
+use Auth;
 use App\Product;
 
 
@@ -24,11 +25,23 @@ class ProductController extends Controller
     	if ($validation->fails()) {
     		return $validation->errors();
     	}else{
-    		$query = Product::with(['discount' => function($query){
-                                $query->where('expires_at', '>', date('Y-m-d H:i:s'));
-                                $query->orWhere('expires_at', null);
-                            }])
-                            ->with('reviews')->where('status', '1');
+    		$query = Product::where('status', '1');
+
+            #   if user has added particular product to wishlist then add a column
+            if ($request->input('api_token')) {
+                $user = \App\User::where('api_token', trim($request->input('api_token')))->first();
+                if ($user) {
+                    $query->with(['wishlists' => function($query) use($user){
+                        $query->where('user_id', $user->id);
+                    }]);
+                }
+            }
+
+            $query->with(['discount' => function($query){
+                    $query->where('expires_at', '>', date('Y-m-d H:i:s'));
+                    $query->orWhere('expires_at', null);
+                }]);
+
     		if($request->input('featured') != ''){
     			$query = $query->where('featured', $request->input('featured'));
     		}
@@ -46,7 +59,7 @@ class ProductController extends Controller
             }else{
                 $products = $query->paginate(25);
             }
-    		
+
     		return ProductsResource::collection($products);
     	}
     }

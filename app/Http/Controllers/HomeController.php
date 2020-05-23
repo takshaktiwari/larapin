@@ -39,6 +39,12 @@ class HomeController extends Controller
             'subject'   =>  'required',
             'message'   =>  'required'
         ]);
+        
+        \App\Subscriber::updateOrCreate(
+            ['email'    => $request->input('email')],
+            ['name'     =>  $request->input('name'),
+            'mobile'    =>  $request->input('phone')]
+        );
 
         try {
             Mail::to('exaple@gmail.com')->send(new ContactFormSend($request->all()));

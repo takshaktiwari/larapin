@@ -4,6 +4,7 @@
 /storage/*.key
 /storage/app/*.jpg
 /storage/app/*.png
+/storage/app/*.xlsx
 /storage/debugbar
 /storage/framework
 /storage/logs
